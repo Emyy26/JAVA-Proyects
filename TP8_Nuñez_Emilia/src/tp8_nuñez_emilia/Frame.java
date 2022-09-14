@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author emi
+ * @author emilia
  */
 public class Frame extends javax.swing.JFrame {
     ArrayList<Perro> perros = new ArrayList<Perro>();
