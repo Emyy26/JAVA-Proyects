@@ -8,7 +8,7 @@ import java.util.*;
         
 /**
  *@GwtCompatible
- * @author emi
+ * @author emilia
  */
 public class FramePrincipal extends javax.swing.JFrame {
 
