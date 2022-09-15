@@ -6,7 +6,6 @@ package tp8_nuñez_emilia;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author emi
@@ -132,52 +131,50 @@ public class Frame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     
+   
+        
+        
     String nombre = nombre_Text.getText().trim();
     String raza = raza_Text.getText().trim();
-    
     int edad = 0;
-    
     double peso = 0.0;  
-    while (edad == 0 && peso == 0.0)
-    { 
-        String edadTexto = edad_Text.getText().trim();
-        String pesoTexto = peso_Text.getText().trim();
-        try {
-            boolean isNumeric = edadTexto.chars().allMatch( Character::isDigit );
-            System.out.println("ES UNA EDAD CORRECTA");
-            edad = Integer.parseInt(edad_Text.getText().trim());
+    
+    
+    String edadTexto = edad_Text.getText().trim();
+    String pesoTexto = peso_Text.getText().trim();
+    try {
+        boolean isNumeric = edadTexto.chars().allMatch( Character::isDigit );
 
-            }
-        catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(jButton1, "Informacion de edad incorrecta, ingrese solo números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            edad_Text.setText("0");
-            System.out.println("NO ES UNA EDAD CORRECTA, APRENDE A ESCRIBIR");
-            }
-    
-        try {
-            peso = Double.parseDouble(pesoTexto);
-            System.out.println("ES UN PESO CORRECTO");
-            break;
-            }
-        catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(jButton1, "Informacion de peso incorrecto", "Atencion", JOptionPane.WARNING_MESSAGE);
-            peso_Text.setText("0");   
-            System.out.println("INGRESE UN PESO CORRECTO INUTIL");
-            }
+        edad = Integer.parseInt(edad_Text.getText().trim());
+
         }
-     
-      
+    catch(NumberFormatException e) {
+        JOptionPane.showMessageDialog(jButton1, "Informacion de edad incorrecta, ingrese solo números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        edad_Text.setText("0");
+        edad_Text.requestFocus();
+        }
     
+    try {
+        peso = Double.parseDouble(pesoTexto);
+        }
+            
+    catch(NumberFormatException e) {
+        JOptionPane.showMessageDialog(jButton1, "Informacion de peso incorrecto, ingrese solo números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        peso_Text.setText("0"); 
+        peso_Text.requestFocus();
+        }
+        
        Perro p = new Perro();
        
-       p.setNombre(nombre);
-       p.setPeso(peso);
-       p.setRaza(raza);
-       p.setEdad(edad);
+       if (edad > 0 && peso > 0.0){
+           p.setNombre(nombre);
+           p.setPeso(peso);
+           p.setRaza(raza);
+           p.setEdad(edad);
        
-       perros.add(p);
-       
-       for(int i=0;i< perros.size();i++){
+           perros.add(p);
+           
+           for(int i=0;i< perros.size();i++){
               Perro c = perros.get(i);
               String nom = c.getNombre();
               String raz = c.getRaza();
@@ -185,13 +182,13 @@ public class Frame extends javax.swing.JFrame {
               double pes = c.getPeso();
               System.out.println("Lista: El nombre del perro es: " + nom + " la edad es: "+ ed + " su peso es: " + pes + " y su raza es : "+raz);
             }
+            nombre_Text.setText("");
+            edad_Text.setText("");
+            peso_Text.setText("");
+            raza_Text.setText("");
+            nombre_Text.requestFocus();
+       }
        
-      
-       nombre_Text.setText("");
-       edad_Text.setText("");
-       peso_Text.setText("");
-       raza_Text.setText("");
-       nombre_Text.requestFocus();
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void peso_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peso_TextActionPerformed
