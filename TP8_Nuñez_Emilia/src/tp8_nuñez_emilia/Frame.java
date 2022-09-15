@@ -11,11 +11,13 @@ import javax.swing.JOptionPane;
  * @author emi
  */
 public class Frame extends javax.swing.JFrame {
+    //Se crea el array list.
     ArrayList<Perro> dogs = new ArrayList<Perro>();
-
-  public static boolean isAlpha(String s) {
+    
+    //se creó una funcion con una expresion regular para saber si solo contiene letras una variable.
+    public static boolean isAlpha(String s) {
         return s != null && s.matches("^[a-zA-Z\\s]*$");
-    }  
+    }
     /**
      * Creates new form Frame
      */
@@ -135,7 +137,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_name_TextActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+       //se crean las variables.
         String name = name_Text.getText().trim();
         String breed = breed_Text.getText().trim();
         int age = 0;
@@ -145,7 +147,7 @@ public class Frame extends javax.swing.JFrame {
         String ageText = age_Text.getText().trim();
         String weightText = weight_Text.getText().trim();
     
-    
+        // se comprueba si el nombre cumple con la condicion de solo tener letras.
         if (isAlpha(name)) {
             correctName = name;
         } else {
@@ -153,7 +155,7 @@ public class Frame extends javax.swing.JFrame {
             name_Text.setText("");
             name_Text.requestFocus();
         }
-
+        // se comprueba si la raza cumple con la condicion de solo tener letras.
         if (isAlpha(breed)) {
             correctBreed = breed;
         } else {
@@ -162,11 +164,10 @@ public class Frame extends javax.swing.JFrame {
             breed_Text.requestFocus();
         }
        
-    
-    
-    
+        // se comprueba si la edad cumple con la condicion de solo tener números.
         try {
             ageText.chars().allMatch(Character::isDigit);
+            //se transforma el dato de string a int.
             age = Integer.parseInt(age_Text.getText().trim());
 
         } catch (NumberFormatException e) {
@@ -174,17 +175,22 @@ public class Frame extends javax.swing.JFrame {
             age_Text.setText("");
             age_Text.requestFocus();
         }
-
+        
+        // se comprueba si el peso cumple con la condicion de solo tener números.
         try {
+            //se transforma el dato de string a double, mientras se comprueba si solo contiene números.
             weight = Double.parseDouble(weightText);
-        } catch (NumberFormatException e) {
+        } 
+        catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(jButton1, "Para ingresar el peso solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
             weight_Text.setText("");
             weight_Text.requestFocus();
         }
         
         Perro p = new Perro();
-
+        
+        /*si cumple con las condiciones, se cargaran los datos en el arraylist, luego se imprimirá 
+        por pantalla los datos cargados, y por ultimo dejará vacios los campos de datos*/
         if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()){
             p.setName(name);
             p.setWeight(weight);
