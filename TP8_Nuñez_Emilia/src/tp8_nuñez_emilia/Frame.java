@@ -11,9 +11,11 @@ import javax.swing.JOptionPane;
  * @author emi
  */
 public class Frame extends javax.swing.JFrame {
-    ArrayList<Perro> perros = new ArrayList<Perro>();
+    ArrayList<Perro> dogs = new ArrayList<Perro>();
 
-    
+  public static boolean isAlpha(String s) {
+        return s != null && s.matches("^[a-zA-Z\\s]*$");
+    }  
     /**
      * Creates new form Frame
      */
@@ -31,10 +33,10 @@ public class Frame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        nombre_Text = new javax.swing.JTextField();
-        edad_Text = new javax.swing.JTextField();
-        peso_Text = new javax.swing.JTextField();
-        raza_Text = new javax.swing.JTextField();
+        name_Text = new javax.swing.JTextField();
+        age_Text = new javax.swing.JTextField();
+        weight_Text = new javax.swing.JTextField();
+        breed_Text = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -49,21 +51,21 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
-        nombre_Text.addActionListener(new java.awt.event.ActionListener() {
+        name_Text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombre_TextActionPerformed(evt);
+                name_TextActionPerformed(evt);
             }
         });
 
-        peso_Text.addActionListener(new java.awt.event.ActionListener() {
+        weight_Text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                peso_TextActionPerformed(evt);
+                weight_TextActionPerformed(evt);
             }
         });
 
-        raza_Text.addActionListener(new java.awt.event.ActionListener() {
+        breed_Text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                raza_TextActionPerformed(evt);
+                breed_TextActionPerformed(evt);
             }
         });
 
@@ -80,7 +82,7 @@ public class Frame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 27, Short.MAX_VALUE)
+                .addGap(0, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
@@ -88,13 +90,16 @@ public class Frame extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(raza_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombre_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(breed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(peso_Text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                        .addComponent(edad_Text, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(weight_Text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                        .addComponent(age_Text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(119, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,101 +108,115 @@ public class Frame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nombre_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(name_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(edad_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(age_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(35, 35, 35))
+                        .addGap(32, 32, 32))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(peso_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(weight_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(raza_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(breed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nombre_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombre_TextActionPerformed
+    private void name_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name_TextActionPerformed
         
-    }//GEN-LAST:event_nombre_TextActionPerformed
+    }//GEN-LAST:event_name_TextActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    
-   
-        
-        
-    String nombre = nombre_Text.getText().trim();
-    String raza = raza_Text.getText().trim();
-    int edad = 0;
-    double peso = 0.0;  
-    
-    
-    String edadTexto = edad_Text.getText().trim();
-    String pesoTexto = peso_Text.getText().trim();
-    try {
-        boolean isNumeric = edadTexto.chars().allMatch( Character::isDigit );
-
-        edad = Integer.parseInt(edad_Text.getText().trim());
-
-        }
-    catch(NumberFormatException e) {
-        JOptionPane.showMessageDialog(jButton1, "Informacion de edad incorrecta, ingrese solo números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        edad_Text.setText("0");
-        edad_Text.requestFocus();
-        }
-    
-    try {
-        peso = Double.parseDouble(pesoTexto);
-        }
-            
-    catch(NumberFormatException e) {
-        JOptionPane.showMessageDialog(jButton1, "Informacion de peso incorrecto, ingrese solo números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        peso_Text.setText("0"); 
-        peso_Text.requestFocus();
-        }
-        
-       Perro p = new Perro();
        
-       if (edad > 0 && peso > 0.0){
-           p.setNombre(nombre);
-           p.setPeso(peso);
-           p.setRaza(raza);
-           p.setEdad(edad);
+        String name = name_Text.getText().trim();
+        String breed = breed_Text.getText().trim();
+        int age = 0;
+        double weight = 0.0;
+        String correctName = "";
+        String correctBreed = "";
+        String ageText = age_Text.getText().trim();
+        String weightText = weight_Text.getText().trim();
+    
+    
+        if (isAlpha(name)) {
+            correctName = name;
+        } else {
+            JOptionPane.showMessageDialog(jButton1, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            name_Text.setText("");
+            name_Text.requestFocus();
+        }
+
+        if (isAlpha(breed)) {
+            correctBreed = breed;
+        } else {
+            JOptionPane.showMessageDialog(jButton1, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            breed_Text.setText("");
+            breed_Text.requestFocus();
+        }
        
-           perros.add(p);
-           
-           for(int i=0;i< perros.size();i++){
-              Perro c = perros.get(i);
-              String nom = c.getNombre();
-              String raz = c.getRaza();
-              int ed = c.getEdad();
-              double pes = c.getPeso();
-              System.out.println("Lista: El nombre del perro es: " + nom + " la edad es: "+ ed + " su peso es: " + pes + " y su raza es : "+raz);
+    
+    
+    
+        try {
+            ageText.chars().allMatch(Character::isDigit);
+            age = Integer.parseInt(age_Text.getText().trim());
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(jButton1, "Para ingresar la edad solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            age_Text.setText("");
+            age_Text.requestFocus();
+        }
+
+        try {
+            weight = Double.parseDouble(weightText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(jButton1, "Para ingresar el peso solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            weight_Text.setText("");
+            weight_Text.requestFocus();
+        }
+        
+        Perro p = new Perro();
+
+        if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()){
+            p.setName(name);
+            p.setWeight(weight);
+            p.setBreed(breed);
+            p.setAge(age);
+
+            dogs.add(p);
+
+            for (int i = 0; i < dogs.size(); i++) {
+                Perro d = dogs.get(i);
+                String namePrint = d.getName();
+                String breedPrint = d.getBreed();
+                int agePrint = d.getAge();
+                double weightPrint= d.getWeight();
+                System.out.println("Lista: El nombre del perro es: " + namePrint + " la edad es: " + agePrint + " su peso es: " + weightPrint + " y su raza es : " + breedPrint);
             }
-            nombre_Text.setText("");
-            edad_Text.setText("");
-            peso_Text.setText("");
-            raza_Text.setText("");
-            nombre_Text.requestFocus();
-       }
-       
+            name_Text.setText("");
+            age_Text.setText("");
+            weight_Text.setText("");
+            breed_Text.setText("");
+            name_Text.requestFocus();
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    private void peso_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peso_TextActionPerformed
+    private void weight_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weight_TextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_peso_TextActionPerformed
+    }//GEN-LAST:event_weight_TextActionPerformed
 
-    private void raza_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raza_TextActionPerformed
+    private void breed_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_breed_TextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_raza_TextActionPerformed
+    }//GEN-LAST:event_breed_TextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,14 +254,14 @@ public class Frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField edad_Text;
+    private javax.swing.JTextField age_Text;
+    private javax.swing.JTextField breed_Text;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField nombre_Text;
-    private javax.swing.JTextField peso_Text;
-    private javax.swing.JTextField raza_Text;
+    private javax.swing.JTextField name_Text;
+    private javax.swing.JTextField weight_Text;
     // End of variables declaration//GEN-END:variables
 }

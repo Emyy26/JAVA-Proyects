@@ -10,33 +10,35 @@ package tp8_nuñez_emilia;
  */
 public abstract class Animal {
    
-    private int edad;
-    private double peso;
-    private String raza;
+    private int age;
+    private double weight;
+    private String breed;
 
-    public int getEdad() {
-        return edad;
+    public int getAge() {
+        return age;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public double getPeso() {
-        return peso;
+    public double getWeight() {
+        return weight;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
-    public String getRaza() {
-        return raza;
+    public String getBreed() {
+        return breed;
     }
 
-    public void setRaza(String raza) {
-        this.raza = raza;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
+
+   
 
 
 }
