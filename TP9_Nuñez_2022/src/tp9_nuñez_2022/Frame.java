@@ -1,6 +1,5 @@
 package tp9_nuñez_2022;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -20,12 +19,12 @@ public class Frame extends javax.swing.JFrame {
 
     DefaultTableModel modelo = null;
     TableRowSorter<TableModel> elQueOrdena = null;
-   
-    
+
     //se creó una funcion con una expresion regular para saber si solo contiene letras una variable.
     public static boolean isAlpha(String s) {
         return s != null && s.matches("^[a-zA-Z\\s]*$");
     }
+
     public Frame() {
         initComponents();
         modelo = new DefaultTableModel();
@@ -34,19 +33,19 @@ public class Frame extends javax.swing.JFrame {
         modelo.addColumn("Weight");
         modelo.addColumn("Breed");
         elQueOrdena = new TableRowSorter<TableModel>(modelo);
-        
+
         jTable1.setModel(modelo);
         jTable1.setRowSorter(elQueOrdena);
-        
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-        
+
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(115);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(115);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(115);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(115);
+
         jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
         jTable1.updateUI();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +81,11 @@ public class Frame extends javax.swing.JFrame {
                 filter_TextActionPerformed(evt);
             }
         });
+        filter_Text.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filter_TextKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,15 +93,15 @@ public class Frame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(filter_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                .addGap(279, 279, 279))
+                .addComponent(filter_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(267, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(filter_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+                .addComponent(filter_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -179,7 +183,7 @@ public class Frame extends javax.swing.JFrame {
                     .addComponent(weight_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addComponent(breed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -187,7 +191,6 @@ public class Frame extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(463, 426));
-        jPanel5.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -213,15 +216,10 @@ public class Frame extends javax.swing.JFrame {
                 jTable1MouseClicked(evt);
             }
         });
-        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTable1KeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
         jTable1.getAccessibleContext().setAccessibleDescription("");
 
-        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jScrollPane1);
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.CENTER);
 
@@ -240,31 +238,31 @@ public class Frame extends javax.swing.JFrame {
         //se crean las variables.
         String name = name_Text.getText().trim();
         String breed = breed_Text.getText().trim();
-        int age = 0;
-        double weight = 0.0;
-        String correctName = "";
-        String correctBreed = "";
         String ageText = age_Text.getText().trim();
         String weightText = weight_Text.getText().trim();
-    
+        String correctName = "";
+        String correctBreed = "";
+        int age = 0;
+        double weight = 0.0;
+
         // se comprueba si el nombre cumple con la condicion de solo tener letras.
         if (isAlpha(name)) {
-            correctName = name;
+            correctName = (name.substring(0,1).toUpperCase() +name.substring(1).toLowerCase());
         } else {
             JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
             name_Text.setText("");
             name_Text.requestFocus();
-            return; 
+            return;
         }
         // se comprueba si la raza cumple con la condicion de solo tener letras.
         if (isAlpha(breed)) {
-            correctBreed = breed;
+            correctBreed = (breed.substring(0,1).toUpperCase() + breed.substring(1).toLowerCase());
         } else {
             JOptionPane.showMessageDialog(modifyButton, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
             breed_Text.setText("");
             breed_Text.requestFocus();
         }
-       
+
         // se comprueba si la edad cumple con la condicion de solo tener números.
         try {
             ageText.chars().allMatch(Character::isDigit);
@@ -276,28 +274,27 @@ public class Frame extends javax.swing.JFrame {
             age_Text.setText("");
             age_Text.requestFocus();
         }
-        
+
         // se comprueba si el peso cumple con la condicion de solo tener números.
         try {
             //se transforma el dato de string a double, mientras se comprueba si solo contiene números.
             weight = Double.parseDouble(weightText);
-        } 
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(modifyButton, "Para ingresar el peso solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
             weight_Text.setText("");
             weight_Text.requestFocus();
         }
-       
-        
-        /*si cumple con las condiciones, se cargaran los datos en el arraylist, luego se imprimirá 
-        por pantalla los datos cargados, y por ultimo dejará vacios los campos de datos*/
-        if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()){
-            Object[] rowData = {name_Text.getText().trim().toUpperCase(),
-                            age_Text.getText().trim(),
-                            weight_Text.getText().trim(),
-                            breed_Text.getText().trim()};
+
+        /*si cumple con las condiciones, se cargaran los datos en la tabla y luego dejará vacios los campos de datos*/
+        if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()) {
+            //agrega los datos a la tabla
+            Object[] rowData = {correctName,
+                age_Text.getText().trim(),
+                weight_Text.getText().trim(),
+                correctBreed};
             modelo.addRow(rowData);
-        
+            
+            //deja vacio todos los campos
             name_Text.setText("");
             age_Text.setText("");
             weight_Text.setText("");
@@ -307,60 +304,56 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        try{
+        try {
+            //borra la fila seleccionada
             int index = jTable1.getSelectedRow();
             modelo.removeRow(index);
-            
+
             name_Text.setText("");
             age_Text.setText("");
             weight_Text.setText("");
             breed_Text.setText("");
             name_Text.requestFocus();
-        }
-        
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //alerta para cuando no seleccionan una fila
             JOptionPane.showMessageDialog(null, "Para poder borrar un registro, debe seleccionarlo!", "Atencion", JOptionPane.WARNING_MESSAGE);
         }
-                
-        
+
+
     }//GEN-LAST:event_deleteButtonActionPerformed
-   
+
     private void filter_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_TextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_filter_TextActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       //muestra los datos de la fila seleccionada
         int index = jTable1.getSelectedRow();
-            name_Text.setText(jTable1.getValueAt(index,0).toString());
-            age_Text.setText(jTable1.getValueAt(index,1).toString());
-            weight_Text.setText(jTable1.getValueAt(index,2).toString());
-            breed_Text.setText(jTable1.getValueAt(index,3).toString());
+        name_Text.setText(jTable1.getValueAt(index, 0).toString());
+        age_Text.setText(jTable1.getValueAt(index, 1).toString());
+        weight_Text.setText(jTable1.getValueAt(index, 2).toString());
+        breed_Text.setText(jTable1.getValueAt(index, 3).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
-        elQueOrdena.setRowFilter(RowFilter.regexFilter(filter_Text.getText().trim(), 0));
-    }//GEN-LAST:event_jTable1KeyReleased
-
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        // TODO add your handling code here:
+       
         int index = jTable1.getSelectedRow();
-        if(index  < 0) {
+        if (index < 0) {
             JOptionPane.showMessageDialog(null, "Para poder modificar un registro, debe seleccionarlo!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        }
-        else {
-            //se crean las variables.
+        } else {
             String name = name_Text.getText().trim();
             String breed = breed_Text.getText().trim();
-            int age = 0;
-            double weight = 0.0;
-            String correctName = "";
-            String correctBreed = "";
             String ageText = age_Text.getText().trim();
             String weightText = weight_Text.getText().trim();
+            String correctName = "";
+            String correctBreed = "";
+            int age = 0;
+            double weight = 0.0;
 
             // se comprueba si el nombre cumple con la condicion de solo tener letras.
             if (isAlpha(name)) {
-                correctName = name;
+                //hace que el nombre tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+                correctName = (name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
             } else {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 name_Text.setText("");
@@ -369,7 +362,8 @@ public class Frame extends javax.swing.JFrame {
             }
             // se comprueba si la raza cumple con la condicion de solo tener letras.
             if (isAlpha(breed)) {
-                correctBreed = breed;
+                //hace que la raza tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+                correctBreed = (breed.substring(0, 1).toUpperCase() + breed.substring(1).toLowerCase());
             } else {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 breed_Text.setText("");
@@ -383,6 +377,7 @@ public class Frame extends javax.swing.JFrame {
                 age = Integer.parseInt(age_Text.getText().trim());
 
             } catch (NumberFormatException e) {
+               
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar la edad solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 age_Text.setText("");
                 age_Text.requestFocus();
@@ -398,23 +393,39 @@ public class Frame extends javax.swing.JFrame {
                 weight_Text.requestFocus();
             }
 
-            /*si cumple con las condiciones, se cargaran los datos en el arraylist, luego se imprimirá 
-        por pantalla los datos cargados, y por ultimo dejará vacios los campos de datos*/
+            /*si cumple con las condiciones y dejará vacios los campos de datos*/
             if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()) {
-   
-                modelo.setValueAt(name_Text.getText(), index, 0);
+
+                modelo.setValueAt(correctName, index, 0);
                 modelo.setValueAt(age_Text.getText(), index, 1);
                 modelo.setValueAt(weight_Text.getText(), index, 2);
-                modelo.setValueAt(breed_Text.getText(), index, 3);
-                
+                modelo.setValueAt(correctBreed, index, 3);
+
                 name_Text.setText("");
                 age_Text.setText("");
                 weight_Text.setText("");
                 breed_Text.setText("");
                 name_Text.requestFocus();
+                
+                //es para que deje de estar seleccionada la fila
+                jTable1.getSelectionModel().clearSelection();
             }
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
+
+    private void filter_TextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filter_TextKeyReleased
+        //se usa para filtrar los datos de la tabla
+        try{
+            //hace que el filtro tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+            String correctFilter = (filter_Text.getText().trim().substring(0, 1).toUpperCase() + filter_Text.getText().trim().substring(1).toLowerCase());
+            elQueOrdena.setRowFilter(RowFilter.regexFilter(correctFilter, 0));
+        }
+        catch(StringIndexOutOfBoundsException e){
+            //agarra la excepcion de cuando el campo de texto queda vacio, y manda una alerta.
+            JOptionPane.showMessageDialog(modifyButton, "Ingrese minimo una letra para buscar!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_filter_TextKeyReleased
 
     /**
      * @param args the command line arguments
