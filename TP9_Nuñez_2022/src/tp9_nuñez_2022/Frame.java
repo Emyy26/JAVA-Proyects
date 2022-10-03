@@ -1,6 +1,11 @@
 package tp9_nuñez_2022;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,15 +17,36 @@ import java.util.ArrayList;
  * @author emi
  */
 public class Frame extends javax.swing.JFrame {
-    //Se crea el array list.
-    //ArrayList<Perro> dogs = new ArrayList<Perro>();
-    /**
-     * Creates new form Frame
-     */
+
+    DefaultTableModel modelo = null;
+    TableRowSorter<TableModel> elQueOrdena = null;
+   
+    
+    //se creó una funcion con una expresion regular para saber si solo contiene letras una variable.
+    public static boolean isAlpha(String s) {
+        return s != null && s.matches("^[a-zA-Z\\s]*$");
+    }
     public Frame() {
         initComponents();
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Name");
+        modelo.addColumn("Age");
+        modelo.addColumn("Weight");
+        modelo.addColumn("Breed");
+        elQueOrdena = new TableRowSorter<TableModel>(modelo);
+        
+        jTable1.setModel(modelo);
+        jTable1.setRowSorter(elQueOrdena);
+        
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+        
+        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
+        jTable1.updateUI();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,17 +57,17 @@ public class Frame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        filter_Text = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        modifyButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        name_Text = new javax.swing.JTextField();
+        age_Text = new javax.swing.JTextField();
+        weight_Text = new javax.swing.JTextField();
+        breed_Text = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -50,7 +76,12 @@ public class Frame extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(587, 50));
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder("Filter"));
+        filter_Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Filter"));
+        filter_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filter_TextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,14 +89,14 @@ public class Frame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addComponent(filter_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                 .addGap(279, 279, 279))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(filter_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
         );
 
@@ -76,39 +107,49 @@ public class Frame extends javax.swing.JFrame {
 
         jPanel3.setPreferredSize(new java.awt.Dimension(255, 42));
 
-        jButton3.setText("Add");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton3);
+        jPanel3.add(addButton);
 
-        jButton2.setText("Delete");
-        jPanel3.add(jButton2);
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(deleteButton);
 
-        jButton1.setText("Modify");
-        jPanel3.add(jButton1);
+        modifyButton.setText("Modify");
+        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(modifyButton);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(270, 181));
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
+        name_Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
 
-        jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder("Age"));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        age_Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Age"));
+        age_Text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                age_TextActionPerformed(evt);
             }
         });
 
-        jTextField4.setBorder(javax.swing.BorderFactory.createTitledBorder("Weight"));
+        weight_Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Weight"));
 
-        jTextField5.setBorder(javax.swing.BorderFactory.createTitledBorder("Breed"));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        breed_Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Breed"));
+        breed_Text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                breed_TextActionPerformed(evt);
             }
         });
 
@@ -120,26 +161,25 @@ public class Frame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))
-                    .addComponent(jTextField5)
-                    .addComponent(jTextField2))
+                        .addComponent(age_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(weight_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(breed_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .addComponent(name_Text))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(name_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addComponent(age_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weight_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addComponent(breed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -168,7 +208,18 @@ public class Frame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getAccessibleContext().setAccessibleDescription("");
 
         jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -177,17 +228,193 @@ public class Frame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void breed_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_breed_TextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_breed_TextActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void age_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_age_TextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_age_TextActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        //se crean las variables.
+        String name = name_Text.getText().trim();
+        String breed = breed_Text.getText().trim();
+        int age = 0;
+        double weight = 0.0;
+        String correctName = "";
+        String correctBreed = "";
+        String ageText = age_Text.getText().trim();
+        String weightText = weight_Text.getText().trim();
+    
+        // se comprueba si el nombre cumple con la condicion de solo tener letras.
+        if (isAlpha(name)) {
+            correctName = name;
+        } else {
+            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            name_Text.setText("");
+            name_Text.requestFocus();
+            return; 
+        }
+        // se comprueba si la raza cumple con la condicion de solo tener letras.
+        if (isAlpha(breed)) {
+            correctBreed = breed;
+        } else {
+            JOptionPane.showMessageDialog(modifyButton, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            breed_Text.setText("");
+            breed_Text.requestFocus();
+        }
+       
+        // se comprueba si la edad cumple con la condicion de solo tener números.
+        try {
+            ageText.chars().allMatch(Character::isDigit);
+            //se transforma el dato de string a int.
+            age = Integer.parseInt(age_Text.getText().trim());
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(modifyButton, "Para ingresar la edad solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            age_Text.setText("");
+            age_Text.requestFocus();
+        }
+        
+        // se comprueba si el peso cumple con la condicion de solo tener números.
+        try {
+            //se transforma el dato de string a double, mientras se comprueba si solo contiene números.
+            weight = Double.parseDouble(weightText);
+        } 
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el peso solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            weight_Text.setText("");
+            weight_Text.requestFocus();
+        }
+       
+        
+        /*si cumple con las condiciones, se cargaran los datos en el arraylist, luego se imprimirá 
+        por pantalla los datos cargados, y por ultimo dejará vacios los campos de datos*/
+        if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()){
+            Object[] rowData = {name_Text.getText().trim().toUpperCase(),
+                            age_Text.getText().trim(),
+                            weight_Text.getText().trim(),
+                            breed_Text.getText().trim()};
+            modelo.addRow(rowData);
+        
+            name_Text.setText("");
+            age_Text.setText("");
+            weight_Text.setText("");
+            breed_Text.setText("");
+            name_Text.requestFocus();
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        try{
+            int index = jTable1.getSelectedRow();
+            modelo.removeRow(index);
+            
+            name_Text.setText("");
+            age_Text.setText("");
+            weight_Text.setText("");
+            breed_Text.setText("");
+            name_Text.requestFocus();
+        }
+        
+        catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Para poder borrar un registro, debe seleccionarlo!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        }
+                
+        
+    }//GEN-LAST:event_deleteButtonActionPerformed
+   
+    private void filter_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_TextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_filter_TextActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int index = jTable1.getSelectedRow();
+            name_Text.setText(jTable1.getValueAt(index,0).toString());
+            age_Text.setText(jTable1.getValueAt(index,1).toString());
+            weight_Text.setText(jTable1.getValueAt(index,2).toString());
+            breed_Text.setText(jTable1.getValueAt(index,3).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        elQueOrdena.setRowFilter(RowFilter.regexFilter(filter_Text.getText().trim(), 0));
+    }//GEN-LAST:event_jTable1KeyReleased
+
+    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
+        // TODO add your handling code here:
+        int index = jTable1.getSelectedRow();
+        if(index  < 0) {
+            JOptionPane.showMessageDialog(null, "Para poder modificar un registro, debe seleccionarlo!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            //se crean las variables.
+            String name = name_Text.getText().trim();
+            String breed = breed_Text.getText().trim();
+            int age = 0;
+            double weight = 0.0;
+            String correctName = "";
+            String correctBreed = "";
+            String ageText = age_Text.getText().trim();
+            String weightText = weight_Text.getText().trim();
+
+            // se comprueba si el nombre cumple con la condicion de solo tener letras.
+            if (isAlpha(name)) {
+                correctName = name;
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                name_Text.setText("");
+                name_Text.requestFocus();
+                return;
+            }
+            // se comprueba si la raza cumple con la condicion de solo tener letras.
+            if (isAlpha(breed)) {
+                correctBreed = breed;
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                breed_Text.setText("");
+                breed_Text.requestFocus();
+            }
+
+            // se comprueba si la edad cumple con la condicion de solo tener números.
+            try {
+                ageText.chars().allMatch(Character::isDigit);
+                //se transforma el dato de string a int.
+                age = Integer.parseInt(age_Text.getText().trim());
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar la edad solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                age_Text.setText("");
+                age_Text.requestFocus();
+            }
+
+            // se comprueba si el peso cumple con la condicion de solo tener números.
+            try {
+                //se transforma el dato de string a double, mientras se comprueba si solo contiene números.
+                weight = Double.parseDouble(weightText);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el peso solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                weight_Text.setText("");
+                weight_Text.requestFocus();
+            }
+
+            /*si cumple con las condiciones, se cargaran los datos en el arraylist, luego se imprimirá 
+        por pantalla los datos cargados, y por ultimo dejará vacios los campos de datos*/
+            if (age > 0 && weight > 0.0 && !correctName.isEmpty() && !correctBreed.isEmpty()) {
+   
+                modelo.setValueAt(name_Text.getText(), index, 0);
+                modelo.setValueAt(age_Text.getText(), index, 1);
+                modelo.setValueAt(weight_Text.getText(), index, 2);
+                modelo.setValueAt(breed_Text.getText(), index, 3);
+                
+                name_Text.setText("");
+                age_Text.setText("");
+                weight_Text.setText("");
+                breed_Text.setText("");
+                name_Text.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_modifyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,9 +452,11 @@ public class Frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton addButton;
+    private javax.swing.JTextField age_Text;
+    private javax.swing.JTextField breed_Text;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JTextField filter_Text;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -235,10 +464,8 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton modifyButton;
+    private javax.swing.JTextField name_Text;
+    private javax.swing.JTextField weight_Text;
     // End of variables declaration//GEN-END:variables
 }

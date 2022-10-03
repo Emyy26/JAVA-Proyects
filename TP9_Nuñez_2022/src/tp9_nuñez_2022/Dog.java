@@ -8,6 +8,16 @@ package tp9_nuñez_2022;
  *
  * @author emi
  */
-public class Dog {
+public class Dog extends Animal{
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     
-}
+    }
