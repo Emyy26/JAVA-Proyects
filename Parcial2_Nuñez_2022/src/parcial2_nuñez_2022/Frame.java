@@ -27,6 +27,8 @@ public class Frame extends javax.swing.JFrame {
      
     DefaultTableModel modelo = null;
     TableRowSorter<TableModel> elQueOrdena = null;
+    DefaultTableModel modelo2 = null;
+    TableRowSorter<TableModel> elQueOrdena2 = null;
     
     public Frame() {
         initComponents();
@@ -34,6 +36,11 @@ public class Frame extends javax.swing.JFrame {
         elQueOrdena = new TableRowSorter<TableModel>(modelo);
         jTable1.setModel(modelo);
         jTable1.setRowSorter(elQueOrdena);
+        
+        modelo2 = (DefaultTableModel) jTable2.getModel();
+        elQueOrdena2 = new TableRowSorter<TableModel>(modelo2);
+        jTable2.setModel(modelo2);
+        jTable2.setRowSorter(elQueOrdena2);
     }
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,10 +60,13 @@ public class Frame extends javax.swing.JFrame {
     private void Clean(){
         surnameText.setText("");
         nameText.setText("");
+        idGroup1.clearSelection();
+        maritalGroup2.clearSelection();
         idText.setText("");
         homeText.setText("");
         locationText.setText("");
         neighborhoodText.setText("");
+      
         phoneText.setText("");
         movil1Text.setText("");
         movil2Text.setText("");
@@ -116,8 +126,8 @@ public class Frame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        asignarHab = new javax.swing.JButton();
+        liberarHab = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -135,7 +145,6 @@ public class Frame extends javax.swing.JFrame {
         email2Text1 = new javax.swing.JTextField();
         movil1Text1 = new javax.swing.JTextField();
         locationText1 = new javax.swing.JTextField();
-        dateBirthText1 = new javax.swing.JTextField();
         phoneText1 = new javax.swing.JTextField();
         neighborhoodText1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -144,6 +153,7 @@ public class Frame extends javax.swing.JFrame {
         jRadioButton4 = new javax.swing.JRadioButton();
         bussinesNameText = new javax.swing.JTextField();
         ageText = new javax.swing.JTextField();
+        date2 = new com.toedter.calendar.JDateChooser();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -227,9 +237,9 @@ public class Frame extends javax.swing.JFrame {
 
         jPanel4.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        nameText.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"));
+        nameText.setBorder(javax.swing.BorderFactory.createTitledBorder(" Nombre *"));
 
-        surnameText.setBorder(javax.swing.BorderFactory.createTitledBorder("Apellido"));
+        surnameText.setBorder(javax.swing.BorderFactory.createTitledBorder("Apellido *"));
 
         homeText.setBorder(javax.swing.BorderFactory.createTitledBorder("Domicilio"));
 
@@ -247,7 +257,7 @@ public class Frame extends javax.swing.JFrame {
 
         idText.setBorder(javax.swing.BorderFactory.createTitledBorder("Documento"));
 
-        email1Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Email 1"));
+        email1Text.setBorder(javax.swing.BorderFactory.createTitledBorder(" Email 1 *"));
 
         commentText.setBorder(javax.swing.BorderFactory.createTitledBorder("Horario de disponibilidad"));
 
@@ -255,7 +265,7 @@ public class Frame extends javax.swing.JFrame {
 
         email2Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Email 2"));
 
-        movil1Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1"));
+        movil1Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1 *"));
 
         locationText.setBorder(javax.swing.BorderFactory.createTitledBorder("Localidad"));
 
@@ -302,9 +312,9 @@ public class Frame extends javax.swing.JFrame {
         });
         jPanel5.add(modifyButton);
 
-        jLabel2.setText("Elija el tipo de documento:");
+        jLabel2.setText("Elija el tipo de documento: *");
 
-        jLabel3.setText("Estado Civil: ");
+        jLabel3.setText("Estado Civil: *");
 
         maritalGroup2.add(soltero);
         soltero.setText("Soltero");
@@ -312,7 +322,7 @@ public class Frame extends javax.swing.JFrame {
         maritalGroup2.add(casado);
         casado.setText("Casado");
 
-        nacimiento.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Nacimiento"));
+        nacimiento.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Nacimiento *"));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -458,17 +468,22 @@ public class Frame extends javax.swing.JFrame {
 
         jPanel7.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jButton4.setText("Asignar Habitacion");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        asignarHab.setText("Asignar Habitacion");
+        asignarHab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                asignarHabMouseClicked(evt);
+            }
+        });
+        asignarHab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                asignarHabActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Liberar Habitacion");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        liberarHab.setText("Liberar Habitacion");
+        liberarHab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                liberarHabActionPerformed(evt);
             }
         });
 
@@ -478,9 +493,9 @@ public class Frame extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(liberarHab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(asignarHab)
                 .addGap(84, 84, 84))
         );
         jPanel7Layout.setVerticalGroup(
@@ -488,8 +503,8 @@ public class Frame extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(asignarHab)
+                    .addComponent(liberarHab))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -504,9 +519,9 @@ public class Frame extends javax.swing.JFrame {
 
         jPanel12.setPreferredSize(new java.awt.Dimension(1000, 500));
 
-        nameText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"));
+        nameText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre *"));
 
-        surnameText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Apellido"));
+        surnameText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Apellido *"));
 
         homeText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Domicilio"));
 
@@ -522,9 +537,9 @@ public class Frame extends javax.swing.JFrame {
         id2.add(ciRadioButton1);
         ciRadioButton1.setText("CI");
 
-        idText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Documento"));
+        idText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Documento *"));
 
-        email1Text1.setBorder(javax.swing.BorderFactory.createTitledBorder("Email 1"));
+        email1Text1.setBorder(javax.swing.BorderFactory.createTitledBorder("Email 1 *"));
 
         commentText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Horario de disponibilidad"));
 
@@ -537,19 +552,17 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
-        movil1Text1.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1"));
+        movil1Text1.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1 *"));
 
         locationText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Localidad"));
-
-        dateBirthText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Nacimiento"));
 
         phoneText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Teléfono"));
 
         neighborhoodText1.setBorder(javax.swing.BorderFactory.createTitledBorder("Barrio"));
 
-        jLabel4.setText("Elija el tipo de documento:");
+        jLabel4.setText("Elija el tipo de documento: *");
 
-        jLabel5.setText("Estado Civil: ");
+        jLabel5.setText("Estado Civil: *");
 
         marital2.add(jRadioButton3);
         jRadioButton3.setText("Soltero");
@@ -559,7 +572,9 @@ public class Frame extends javax.swing.JFrame {
 
         bussinesNameText.setBorder(javax.swing.BorderFactory.createTitledBorder("Razón Social"));
 
-        ageText.setBorder(javax.swing.BorderFactory.createTitledBorder("Edad"));
+        ageText.setBorder(javax.swing.BorderFactory.createTitledBorder("Edad *"));
+
+        date2.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Nacimiento"));
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -590,24 +605,6 @@ public class Frame extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel12Layout.createSequentialGroup()
-                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel12Layout.createSequentialGroup()
-                                    .addComponent(dniRadioButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lcRadioButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(leRadioButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ciRadioButton1)))
-                            .addGap(49, 49, 49)
-                            .addComponent(idText1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel12Layout.createSequentialGroup()
-                            .addComponent(neighborhoodText1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateBirthText1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,7 +613,27 @@ public class Frame extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bussinesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(email1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(email1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel12Layout.createSequentialGroup()
+                                        .addComponent(dniRadioButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lcRadioButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(leRadioButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ciRadioButton1)))
+                                .addGap(49, 49, 49))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                                .addComponent(neighborhoodText1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)))
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(idText1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(date2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(376, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -632,21 +649,7 @@ public class Frame extends javax.swing.JFrame {
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(homeText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(locationText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(neighborhoodText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateBirthText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(phoneText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(movil1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(movil2Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(email1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(email2Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(commentText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bussinesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ageText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34))
+                            .addComponent(neighborhoodText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +662,21 @@ public class Frame extends javax.swing.JFrame {
                                     .addComponent(lcRadioButton1)
                                     .addComponent(leRadioButton1)
                                     .addComponent(ciRadioButton1))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(date2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phoneText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(movil1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(movil2Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(email1Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(email2Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(commentText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bussinesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ageText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioButton4)
                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -742,13 +759,13 @@ public class Frame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_email2Text1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void asignarHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarHabActionPerformed
+       
+    }//GEN-LAST:event_asignarHabActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void liberarHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liberarHabActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_liberarHabActionPerformed
 
     private void filterTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterTextActionPerformed
         
@@ -770,10 +787,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_filterTextKeyReleased
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        
-            
-        
-    
+
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -806,6 +820,10 @@ public class Frame extends javax.swing.JFrame {
             String correctNeigh = "";
             Integer correctPhone = 0;
             
+            if(date.isEmpty()){
+                JOptionPane.showMessageDialog(modifyButton, "Seleccione una fecha en el calendario!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            }
+            
             if (dni.isSelected()){
                 typeId = "DNI";
             }
@@ -815,8 +833,11 @@ public class Frame extends javax.swing.JFrame {
             if (Le.isSelected()){
                 typeId = "LE";
             }
-            else{
+            if (Ci.isSelected()){
                 typeId = "CI";
+            }
+            if(!dni.isSelected()&&!Lc.isSelected()&&!Le.isSelected()&&!Ci.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de tipo de documento!", "Atencion", JOptionPane.WARNING_MESSAGE);
             }
             
             if (soltero.isSelected()){
@@ -825,8 +846,12 @@ public class Frame extends javax.swing.JFrame {
             if (casado.isSelected()){
                 maritalStatus = "Casado";
             }
+            if(!soltero.isSelected()&&!casado.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de Estado civil!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            }
             
             // se comprueba si los datos con string cumplen con la condicion de solo tener letras.
+            if (!surname.isEmpty()){
             if (isAlpha(name)) {
                 //hace que el nombre tenga el formato de la primer letra en mayuscula y el resto en minuscula.
                 correctName = (name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
@@ -835,22 +860,25 @@ public class Frame extends javax.swing.JFrame {
                 nameText.setText("");
                 nameText.requestFocus();
                 return;
-            }
+            }}
             
+            if (!surname.isEmpty()){
             if (isAlpha(surname)) {
                 correctSurname = (surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase());
             } else {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar la raza solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 surnameText.setText("");
                 surnameText.requestFocus();
-            }
+            }}
+            if (!location.isEmpty()){
             if (isAlpha(location)) {
                 correctLocation = (location.substring(0, 1).toUpperCase() + location.substring(1).toLowerCase());
             } else {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar la locacion solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 locationText.setText("");
                 locationText.requestFocus();
-            }
+            }}
+            if (!neighborhood.isEmpty()){
             if (isAlpha(neighborhood)) {
                 //hace que la raza tenga el formato de la primer letra en mayuscula y el resto en minuscula.
                correctNeigh = (neighborhood.substring(0, 1).toUpperCase() + neighborhood.substring(1).toLowerCase());
@@ -858,9 +886,10 @@ public class Frame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar el barrio solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 neighborhoodText.setText("");
                 neighborhoodText.requestFocus();
-            }
+            }}
 
             // se comprueba si datos con numeros cumplen con la condicion de solo tener números.
+            if (!phone.isEmpty()) {
             try {
                 phone.chars().allMatch(Character::isDigit);
                 //se transforma el dato de string a int.
@@ -871,7 +900,7 @@ public class Frame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 phoneText.setText("");
                 phoneText.requestFocus();
-            }
+            }}
 
             try {
                 movil1.chars().allMatch(Character::isDigit);
@@ -884,19 +913,21 @@ public class Frame extends javax.swing.JFrame {
                 movil1Text.setText("");
                 movil1Text.requestFocus();
             }
+            if (!movil2.isEmpty()) {
             try {
                 movil2.chars().allMatch(Character::isDigit);
                 //se transforma el dato de string a int.
                 correctMovil2 = Integer.parseInt(movil1Text.getText().trim());
 
             } catch (NumberFormatException e) {
-               
+
                 JOptionPane.showMessageDialog(modifyButton, "Para ingresar el celular solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
                 movil2Text.setText("");
                 movil2Text.requestFocus();
             }
+            }
             
-            // Patrón para validar el email
+           
             if (isEmail(email1)) {
                 correctEmail1 = email1;
             } else {
@@ -904,7 +935,7 @@ public class Frame extends javax.swing.JFrame {
                 email1Text.setText("");
                 email1Text.requestFocus();
             }
-            
+            if (!email2.isEmpty()){
              if (isEmail(email2)) {
                 correctEmail2 = email2;
             } else {
@@ -912,8 +943,10 @@ public class Frame extends javax.swing.JFrame {
                 email2Text.setText("");
                 email2Text.requestFocus();
             }
-            if (!correctName.isEmpty() && !correctSurname.isEmpty()&& correctMovil1 > 0 && !correctEmail1.isEmpty()) {
+            }
+            if (!correctName.isEmpty() && !correctSurname.isEmpty()&& correctMovil1 > 0 && !correctEmail1.isEmpty()&&!typeId.isEmpty()&&!maritalStatus.isEmpty()&&!date.isEmpty()) {
             //agrega los datos a la tabla
+            
             Object[] rowData = {correctName,correctSurname,typeId,id,correctLocation,home,correctNeigh,date,phone,correctMovil1,correctMovil2,
                     
             correctEmail1,correctEmail2,comment,maritalStatus};
@@ -956,7 +989,7 @@ public class Frame extends javax.swing.JFrame {
             String correctNeigh = "";
             Integer correctPhone = 0;
             
-            if (dni.isSelected()){
+           if (dni.isSelected()){
                 typeId = "DNI";
             }
             if(Lc.isSelected()){
@@ -965,8 +998,11 @@ public class Frame extends javax.swing.JFrame {
             if (Le.isSelected()){
                 typeId = "LE";
             }
-            else{
+            if (Ci.isSelected()){
                 typeId = "CI";
+            }
+            if(!dni.isSelected()&&!Lc.isSelected()&&!Le.isSelected()&&!Ci.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de tipo de documento!", "Atencion", JOptionPane.WARNING_MESSAGE);
             }
             
             if (soltero.isSelected()){
@@ -974,6 +1010,9 @@ public class Frame extends javax.swing.JFrame {
             }
             if (casado.isSelected()){
                 maritalStatus = "Casado";
+            }
+            if(!soltero.isSelected()&&!casado.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de Estado civil!", "Atencion", JOptionPane.WARNING_MESSAGE);
             }
             
             // se comprueba si los datos con string cumplen con la condicion de solo tener letras.
@@ -1064,7 +1103,7 @@ public class Frame extends javax.swing.JFrame {
             }
     
             /*si cumple con las condiciones y dejará vacios los campos de datos*/
-            if (!correctName.isEmpty() && !correctSurname.isEmpty()&& correctMovil1 > 0 && !correctEmail1.isEmpty()){
+            if (!correctName.isEmpty() && !correctSurname.isEmpty()&& correctMovil1 > 0 && !correctEmail1.isEmpty()&&!typeId.isEmpty()&&!maritalStatus.isEmpty()) {
 
                 /*modelo.setValueAt(correctName, index, 0);
                 modelo.setValueAt(correctSurname, index, 1);
@@ -1096,6 +1135,184 @@ public class Frame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Para poder borrar un registro, debe seleccionarlo!", "Atencion", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonMouseClicked
+
+    private void asignarHabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_asignarHabMouseClicked
+            String name = nameText.getText().trim();
+            String surname = surnameText.getText().trim();
+            String typeId = "";
+            String id = idText.getText().trim();
+            String location = locationText.getText().trim();
+            String home = homeText.getText().trim();
+            String neighborhood = neighborhoodText.getText().trim();
+            String date = sdf.format(nacimiento.getDate());
+            String phone = phoneText.getText().trim();
+            String movil1 = movil1Text.getText().trim();
+            String movil2 = movil2Text.getText().trim();
+            String email1 = email1Text.getText().trim();
+            String email2 = email2Text.getText().trim();
+            String maritalStatus = "";
+            String comment= commentText.getText().trim();
+            Integer correctMovil1 = 0;
+            Integer correctMovil2 = 0;
+            Integer correctPhone = 0;
+            String age = ageText.getText().trim();
+            int correctAge = 0;
+            String bussines = bussinesNameText.getText().trim();
+           
+            
+            if (dni.isSelected()){
+                typeId = "DNI";
+            }
+            if(Lc.isSelected()){
+                typeId = "LC";
+            }
+            if (Le.isSelected()){
+                typeId = "LE";
+            }
+            if (Ci.isSelected()){
+                typeId = "CI";
+            }
+            if(!dni.isSelected()&&!Lc.isSelected()&&!Le.isSelected()&&!Ci.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de tipo de documento!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            if (soltero.isSelected()){
+                maritalStatus = "Soltero";
+            }
+            if (casado.isSelected()){
+                maritalStatus = "Casado";
+            }
+            if(!soltero.isSelected()&&!casado.isSelected()){
+                JOptionPane.showMessageDialog(modifyButton, "Clickee alguna opcion de Estado civil!", "Atencion", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            // se comprueba si los datos con string cumplen con la condicion de solo tener letras.
+            
+            if (isAlpha(name)) {
+                //hace que el nombre tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+                name = (name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                nameText.setText("");
+                nameText.requestFocus();
+                return;
+            }
+            
+            
+            if (isAlpha(surname)) {
+                surname = (surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase());
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el apellido solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                surnameText.setText("");
+                surnameText.requestFocus();
+            }
+            if (!location.isEmpty()){
+            if (isAlpha(location)) {
+                location = (location.substring(0, 1).toUpperCase() + location.substring(1).toLowerCase());
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar la locacion solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                locationText.setText("");
+                locationText.requestFocus();
+            }}
+            if (!neighborhood.isEmpty()){
+            if (isAlpha(neighborhood)) {
+                //hace que la raza tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+               neighborhood = (neighborhood.substring(0, 1).toUpperCase() + neighborhood.substring(1).toLowerCase());
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el barrio solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                neighborhoodText.setText("");
+                neighborhoodText.requestFocus();
+            }}
+            
+            if (!bussines.isEmpty()){
+            if (isAlpha(bussines)) {
+                //hace que la raza tenga el formato de la primer letra en mayuscula y el resto en minuscula.
+               bussines = (neighborhood.substring(0, 1).toUpperCase() + neighborhood.substring(1).toLowerCase());
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el barrio solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                neighborhoodText.setText("");
+                neighborhoodText.requestFocus();
+            }}
+
+            // se comprueba si datos con numeros cumplen con la condicion de solo tener números.
+            if (!phone.isEmpty()) {
+            try {
+                phone.chars().allMatch(Character::isDigit);
+                //se transforma el dato de string a int.
+                correctPhone = Integer.parseInt(phoneText.getText().trim());
+
+            } catch (NumberFormatException e) {
+               
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                phoneText.setText("");
+                phoneText.requestFocus();
+            }}
+            
+            try {
+                age.chars().allMatch(Character::isDigit);
+                //se transforma el dato de string a int.
+                correctAge = Integer.parseInt(ageText.getText().trim());
+
+            } catch (NumberFormatException e) {
+               
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar la edad solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                ageText.setText("");
+                ageText.requestFocus();
+            }
+
+            try {
+                movil1.chars().allMatch(Character::isDigit);
+                //se transforma el dato de string a int.
+                correctMovil1 = Integer.parseInt(movil1Text.getText().trim());
+
+            } catch (NumberFormatException e) {
+               
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el celular solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                movil1Text.setText("");
+                movil1Text.requestFocus();
+            }
+            if (!movil2.isEmpty()) {
+            try {
+                movil2.chars().allMatch(Character::isDigit);
+                //se transforma el dato de string a int.
+                correctMovil2 = Integer.parseInt(movil1Text.getText().trim());
+
+            } catch (NumberFormatException e) {
+
+                JOptionPane.showMessageDialog(modifyButton, "Para ingresar el celular solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                movil2Text.setText("");
+                movil2Text.requestFocus();
+            }
+            }
+            
+           
+            if (isEmail(email1)) {
+                email1 = email1;
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Email incorrecto, ingrese un email válido!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                email1Text.setText("");
+                email1Text.requestFocus();
+            }
+            if (!email2.isEmpty()){
+             if (isEmail(email2)) {
+                email2 = email2;
+            } else {
+                JOptionPane.showMessageDialog(modifyButton, "Email incorrecto, ingrese un email válido!", "Atencion", JOptionPane.WARNING_MESSAGE);
+                email2Text.setText("");
+                email2Text.requestFocus();
+            }
+            }
+            if (!name.isEmpty() && !surname.isEmpty()&& correctMovil1 > 0 && !email1.isEmpty()&&!typeId.isEmpty()&&!maritalStatus.isEmpty()&&!date.isEmpty()) {
+            //agrega los datos a la tabla
+            
+            Object[] rowData = {name,surname,typeId,id,location,home,neighborhood,date,correctPhone,correctMovil1,correctMovil2,
+                    
+            email1,email2,comment,maritalStatus,correctAge,bussines};
+            modelo2.addRow(rowData);
+            
+            Clean();
+            }
+    }//GEN-LAST:event_asignarHabMouseClicked
         
     
     /**
@@ -1139,12 +1356,13 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JRadioButton Le;
     private javax.swing.JButton addButton;
     private javax.swing.JTextField ageText;
+    private javax.swing.JButton asignarHab;
     private javax.swing.JTextField bussinesNameText;
     private javax.swing.JRadioButton casado;
     private javax.swing.JRadioButton ciRadioButton1;
     private javax.swing.JTextField commentText;
     private javax.swing.JTextField commentText1;
-    private javax.swing.JTextField dateBirthText1;
+    private com.toedter.calendar.JDateChooser date2;
     private javax.swing.JButton deleteButton;
     private javax.swing.JRadioButton dni;
     private javax.swing.JRadioButton dniRadioButton1;
@@ -1159,8 +1377,6 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup idGroup1;
     private javax.swing.JTextField idText;
     private javax.swing.JTextField idText1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1189,6 +1405,7 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JRadioButton lcRadioButton1;
     private javax.swing.JRadioButton leRadioButton1;
+    private javax.swing.JButton liberarHab;
     private javax.swing.JTextField locationText;
     private javax.swing.JTextField locationText1;
     private javax.swing.ButtonGroup marital2;
