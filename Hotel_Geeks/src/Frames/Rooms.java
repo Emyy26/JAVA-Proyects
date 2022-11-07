@@ -87,7 +87,10 @@ public class Rooms extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        returnButton6.setText("Volver al Inicio");
+        returnButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/atras (1).png"))); // NOI18N
+        returnButton6.setText("Volver");
+        returnButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        returnButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         returnButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 returnButton6ActionPerformed(evt);
@@ -106,7 +109,7 @@ public class Rooms extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(returnButton6)
                 .addContainerGap())
         );

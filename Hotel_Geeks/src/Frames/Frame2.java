@@ -43,7 +43,10 @@ public class Frame2 extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        returnButton1.setText("Volver al Inicio");
+        returnButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/atras (1).png"))); // NOI18N
+        returnButton1.setText("Volver");
+        returnButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        returnButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         returnButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 returnButton1ActionPerformed(evt);
@@ -62,7 +65,7 @@ public class Frame2 extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(returnButton1)
                 .addContainerGap())
         );
