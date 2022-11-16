@@ -32,121 +32,42 @@ public class Frame extends javax.swing.JFrame {
     DefaultTableModel modelo = null;
     TableRowSorter<TableModel> elQueOrdena = null;
     private TreeMap<String, Cliente> listaClientes = null;
+    
+    
     /**
      * Creates new form Frame
      */
     public Frame() {
        initComponents();
        _createTable();
-       _addCliente();
+       _agregarClientesAlModelo();
        
        
         
     }
-    public void _addCliente() {
-        /*_cleanTable();
-        Clientes cnx = new Clientes();
-
-        ArrayList<Cliente> list = new ArrayList<Cliente>();
-
-        if (cnx.conectar()) {
-            list = cnx.getList("SELECT * FROM Clientes");
-        }
-
-        listaClientes = new TreeMap<String, Cliente>();
-
-        for (int index = 0; index < list.size(); index++) {
-            Cliente p = list.get(index);
-            modelo.addRow(p.getInfo());
-
-            String key = p.getId() + "";
-            listaClientes.put(key, p);
-        }*/
+    
+    // Metodos de interaccion con la tabla.
+    public void _agregarClientesAlModelo() {
          _cleanTable();
 
-        Clientes conexion = new Clientes();
+        Clientes cnx = new Clientes();
 
-        ArrayList<Cliente> atributosDelCliente = new ArrayList<>();
+        ArrayList<Cliente> detallesClientes = new ArrayList<>();
 
-        if (conexion.conectar()) {
-            atributosDelCliente = conexion.getList("SELECT * FROM Clientes");
+        if (cnx.conectar()) {
+            detallesClientes = cnx.getList("SELECT * FROM Clientes");
         }
 
         listaClientes = new TreeMap<String, Cliente>();
 
-        // Recorrer los atributos del cliente y enviarlos a cada fila
-        // de la tabla del frame.
-        // Ademas asocia esos atributos a cada cliente mediante
-        // una estructura clave valor (clave = id).
-        for (int i = 0; i < atributosDelCliente.size(); i++) {
-            Cliente cl = atributosDelCliente.get(i);
+        for (int i = 0; i < detallesClientes.size(); i++) {
+            Cliente cl = detallesClientes.get(i);
             modelo.addRow(cl.getInfo());
             String key = cl.getId() + "";
             listaClientes.put(key, cl);
             }
         
         
-    }
-    public void _showClientes(Cliente cli) {
-        String surname = "";
-        String name = "";
-        String address = "";
-        Date dateNac = null;
-        Date dateAlta = null;
-        String dni = "";
-        String cuil = "";
-        String phone1 = "";
-        String phone2 = "";
-        String email = "";
-        String cant_masc = "1";
-        
-        if (cli != null) {
-            surname = cli.getSurname().trim();
-            name = cli.getName().trim();
-            address = cli.getAddress().trim();
-            dateNac = cli.getDate_nac();
-            dateAlta = cli.getDate_alta();
-            dni = cli.getDni() + "";
-            cuil = cli.getCuil().trim();
-            phone1 = cli.getPhone1().toString();
-            phone2 = cli.getPhone2().toString();
-            email = cli.getEmail().trim();
-            cant_masc = cli.getCant_masc() + "";
-        }
-
-        surnameText.setText(surname);
-        nameText.setText(name);
-        addressText.setText(address);
-        birth.setDate(dateNac);
-        
-        alta.setDate(dateAlta);
-        dniText.setText(dni);
-        cuilText.setText(cuil);
-        phone1Text.setText(phone1);
-        phone2Text.setText(phone2);
-        emailText.setText(email);
-        cantMascText.setText(cant_masc);
-    }
-    private void _cleanTable() {
-        if (modelo != null) {
-            modelo.setRowCount(0);
-        }
-    }
-    public void _select() {
-        String key = "";
-        Cliente p = null;
-        try {
-            int indexTable = jTable1.getSelectedRow();
-            int indexModelo = jTable1.convertRowIndexToModel(indexTable);
-
-            key = modelo.getValueAt(indexModelo, 0).toString();
-            if (listaClientes.containsKey(key)) {
-                p = listaClientes.get(key);
-            }
-        } catch (Exception ex) {
-        } finally {
-            _showClientes(p);
-        }
     }
     public void _createTable() {
         modelo = new DefaultTableModel();
@@ -168,18 +89,79 @@ public class Frame extends javax.swing.JFrame {
         jTable1.updateUI();
         
     }
-
-    public static boolean isAlpha(String s) {
-        return s != null && s.matches("^[a-zA-Z\\s]*$");
+    private void _cleanTable() {
+        if (modelo != null) {
+            modelo.setRowCount(0);
+        }
     }
-
-    public static boolean isEmail(String e) {
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        Matcher mather = pattern.matcher(e);
-        return e != null && mather.find();
+    public void _filter(String texto) {
+        if (elQueOrdena != null) {
+            elQueOrdena.setRowFilter(RowFilter.regexFilter("(?i)"+texto.trim()));
+        }
     }
-    private void Clean() {
+    
+    // Metodos de interaccion con los textfield
+    public void _completarCampos(Cliente cli) {
+        String id="";
+        String apellido = "";
+        String nombre = "";
+        String domicilio = "";
+        Date dateNac = null;
+        Date dateAlta = null;
+        String dni = "";
+        String cuil = "";
+        String cel1 = "";
+        String cel2 = "";
+        String email = "";
+        String cant_masc = "1";
+        
+        if (cli != null) {
+            id= cli.getId() + "";
+            apellido = cli.getSurname().trim();
+            nombre = cli.getName().trim();
+            domicilio = cli.getAddress().trim();
+            dateNac = cli.getDate_nac();
+            dateAlta = cli.getDate_alta();
+            dni = cli.getDni() + "";
+            cuil = cli.getCuil().trim();
+            cel1 = cli.getPhone1();
+            cel2 = cli.getPhone2();
+            email = cli.getEmail().trim();
+            cant_masc = cli.getCant_masc() + "";
+        }
+
+        campoId.setText(id);
+        surnameText.setText(apellido);
+        nameText.setText(nombre);
+        addressText.setText(domicilio);
+        birth.setDate(dateNac);
+        alta.setDate(dateAlta);
+        dniText.setText(dni);
+        cuilText.setText(cuil);
+        phone1Text.setText(cel1);
+        phone2Text.setText(cel2);
+        emailText.setText(email);
+        cantMascText.setText(cant_masc);
+    }
+    public void _seleccionarRegistroTabla() {
+        // Pasa la informacion de la fila y completa los textfield.
+        String key = "";
+        Cliente cli = null;
+        try {
+            int indexTable = jTable1.getSelectedRow();
+            int indexModelo = jTable1.convertRowIndexToModel(indexTable);
+
+            key = modelo.getValueAt(indexModelo, 0).toString();
+            if (listaClientes.containsKey(key)) {
+                cli = listaClientes.get(key);
+            }
+        } catch (Exception ex) {
+        } finally {
+            _completarCampos(cli);
+        }
+        
+    }
+    private void _limpiarCampos() {
         surnameText.setText("");
         nameText.setText("");
         addressText.setText("");
@@ -191,343 +173,74 @@ public class Frame extends javax.swing.JFrame {
         cuilText.setText("");
         cantMascText.setText("");
         emailText.setText("");
-    }
-    public void _filter(String texto) {
-        if (elQueOrdena != null) {
-            elQueOrdena.setRowFilter(RowFilter.regexFilter(texto.trim()));
-        }
-    }
+    } 
     
-    private Object[] isValidModify() {
-        boolean ok = false;
-        Cliente g = new Cliente();
-
-        Object[] oResult = new Object[2];
-        oResult[0] = ok;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
-        String name = nameText.getText().trim();
-        String surname = surnameText.getText().trim();
-        String dni = dniText.getText().trim();
-        String address = addressText.getText().trim();
-        String movil1 = phone1Text.getText().trim();
-        String movil2 = phone2Text.getText().trim();
-        String email = emailText.getText().trim();
-        String cuil = cuilText.getText().trim();
-        String cant_masc = cantMascText.getText().trim();
-        Date date1 = (birth.getDate());
-        Date date2 = (alta.getDate());
-        Integer correctDni = 0;
-        Integer correctCantMasc = 0;
-        
-        g.setAddress(address);
-        
-        //Se valida que una fecha este colocada en el calendario
-        if (date1 == null) {
-            JOptionPane.showMessageDialog(modifyButton, "¡Seleccione una fecha en el calendario!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            g.setDate_nac(date1);
-        }
-
-        //Se valida que una fecha este colocada en el calendario
-        if (date2 == null) {
-            JOptionPane.showMessageDialog(modifyButton, "¡Seleccione una fecha en el calendario!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        }else{
-            g.setDate_alta(date2);
-        }
-
-        if (isAlpha(name)) {
-            //hace que el nombre tenga el formato de la primer letra en mayuscula y el resto en minuscula.
-            name = (name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
-            g.setName(name);
-            ok = true;
-
-        } else {
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            nameText.setText("");
-            nameText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        if (isAlpha(surname)) {
-            surname = (surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase());
-            g.setSurname(surname);
-            ok = true;
-
-        } else {
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el apellido solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            surnameText.setText("");
-            surnameText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        try {
-            dni.chars().allMatch(Character::isDigit);
-            //se transforma el dato de string a int.
-            correctDni = Integer.parseInt(dniText.getText().trim());
-            g.setDni(correctDni);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el documento solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            dniText.setText("");
-            dniText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-        try {
-            cuil.chars().allMatch(Character::isDigit);
-            g.setCuil(cuil);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el cuil solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            cuilText.setText("");
-            cuilText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-        try {
-            cant_masc.chars().allMatch(Character::isDigit);
-            //se transforma el dato de string a int.
-            correctCantMasc = Integer.parseInt(cantMascText.getText().trim());
-            g.setCant_masc(correctCantMasc);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar la cantidad de mascotas solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            dniText.setText("");
-            dniText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        try {
-            movil1.chars().allMatch(Character::isDigit);
-            g.setPhone1(movil1);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            phone1Text.setText("");
-            phone1Text.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        try {
-            movil2.chars().allMatch(Character::isDigit);
-            g.setPhone2(movil2);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(modifyButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            phone2Text.setText("");
-            phone2Text.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        if (isEmail(email)) {
-            email = email;
-            g.setEmail(email);
-            ok = true;
-        } else {
-            JOptionPane.showMessageDialog(modifyButton, "Email incorrecto, ingrese un email válido!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            emailText.setText("");
-            emailText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        Object[] oReturn = new Object[2];
-        oReturn[0] = ok;
-        oReturn[1] = g;
-        return oReturn;
-
-    }
     
-    private Object[] isValidAdd() {
+    // Metodos de validacion de textfield.
+    private boolean _validarCamposEnBlanco(String apellido, String nombre, String domicilio, Date fechaNac, Date fechaAlta, String doc, String cuil, String c1, String email, String cant) {
+        
+        boolean ok = true;
+        
+        if (apellido.isEmpty() || nombre.isEmpty() || domicilio.isEmpty() || fechaNac == null || fechaAlta == null || doc.isEmpty() || cuil.isEmpty() || c1.isEmpty() || email.isEmpty() || cant.isEmpty()) {
+            ok = false;
+            JOptionPane.showMessageDialog(null, "No se permiten campos en blanco", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return ok;
+    }  
+    private Object[] _validacionFinal() {
         boolean ok = false;
-        Cliente g = new Cliente();
-
-        Object[] oResult = new Object[2];
-        oResult[0] = ok;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
-        String name = nameText.getText().trim();
-        String surname = surnameText.getText().trim();
-        String dni = dniText.getText().trim();
-        String address = addressText.getText().trim();
-        String movil1 = phone1Text.getText().trim();
-        String movil2 = phone2Text.getText().trim();
-        String email = emailText.getText().trim();
-        String cuil = cuilText.getText().trim();
-        String cant_masc = cantMascText.getText().trim();
-        Date date1 = birth.getDate();
-        Date date2 = alta.getDate();
-        Integer correctDni = 0;
-        Integer correctCantMasc = 0;
-
-        g.setAddress(address);
-       
-        //Se valida que una fecha este colocada en el calendario
-        if (date1 == null) {
-            JOptionPane.showMessageDialog(addButton, "¡Seleccione una fecha en el calendario 1!", "Atencion", JOptionPane.WARNING_MESSAGE);
+        Cliente cli = new Cliente();
+        String apellido = surnameText.getText().trim().toUpperCase();
+        String nombre = nameText.getText().trim().toUpperCase();
+        String domicilio = addressText.getText().trim().toUpperCase();
+        Date fechaNac = birth.getDate();
+        Date fechaAlta = alta.getDate();
+        String docEnString = dniText.getText().trim();
+        String cuil = cuilText.getText().trim().toUpperCase();
+        String cel1 = phone1Text.getText().trim();
+        String cel2 = phone2Text.getText().trim();
+        String email = emailText.getText().trim().toLowerCase();
+        String cantMascEnString = cantMascText.getText().trim();
+        
+        if (_validarCamposEnBlanco(apellido, nombre, domicilio, fechaNac, fechaAlta, docEnString, cuil, cel1, email, cantMascEnString)) {
+            int doc = Integer.parseInt(docEnString);
+            int cantMasc = Integer.parseInt(cantMascEnString);
+            
+            cli.setSurname(apellido);
+            cli.setName(nombre);
+            cli.setAddress(domicilio);
+            cli.setDate_nac(fechaNac);
+            cli.setDate_alta(fechaAlta);
+            cli.setDni(doc);
+            cli.setCuil(cuil);
+            cli.setPhone1(cel1);
+            cli.setPhone2(cel2);
+            cli.setEmail(email);
+            cli.setCant_masc(cantMasc);
+            
+            try {
+            if (campoId.getText().trim().isEmpty()) {
+                cli.setId(0);
+            } else {
+                cli.setId(Integer.parseInt(campoId.getText()));
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Se produjo un error", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if ((cli.isValidar())) {
+                ok = true;
+          
         }
-        else{
-            g.setDate_nac(date1);
-        }
-
-        //Se valida que una fecha este colocada en el calendario
-        if (date2 == null) {
-            JOptionPane.showMessageDialog(addButton, "¡Seleccione una fecha en el calendario 2!", "Atencion", JOptionPane.WARNING_MESSAGE);
-        }else{
-            g.setDate_alta(date2);
-        }
-
-        if (isAlpha(name)) {
-            //hace que el nombre tenga el formato de la primer letra en mayuscula y el resto en minuscula.
-            name = (name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
-            g.setName(name);
-            ok = true;
-
-        } else {
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el nombre solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            nameText.setText("");
-            nameText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        if (isAlpha(surname)) {
-            surname = (surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase());
-            g.setSurname(surname);
-            ok = true;
-
-        } else {
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el apellido solo se permiten letras!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            surnameText.setText("");
-            surnameText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-       
-        try {
-            dni.chars().allMatch(Character::isDigit);
-            //se transforma el dato de string a int.
-            correctDni = Integer.parseInt(dniText.getText().trim());
-            g.setDni(correctDni);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el documento solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            dniText.setText("");
-            dniText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-        try {
-            cuil.chars().allMatch(Character::isDigit);
-            g.setCuil(cuil);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el cuil solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            cuilText.setText("");
-            cuilText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-        try {
-            cant_masc.chars().allMatch(Character::isDigit);
-            //se transforma el dato de string a int.
-            correctCantMasc = Integer.parseInt(cantMascText.getText().trim());
-            g.setCant_masc(correctCantMasc);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(addButton, "Para ingresar la cantidad de mascotas solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            dniText.setText("");
-            dniText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
+          }
         }
         
-        if (isEmail(email)) {
-            email = email;
-            g.setEmail(email);
-            ok = true;
-        } else {
-            JOptionPane.showMessageDialog(addButton, "Email incorrecto, ingrese un email válido!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            emailText.setText("");
-            emailText.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-        try {
-            movil1.chars().allMatch(Character::isDigit);
-            g.setPhone1(movil1);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            phone1Text.setText("");
-            phone1Text.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        try {
-            movil2.chars().allMatch(Character::isDigit);
-            g.setPhone2(movil2);
-            ok = true;
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(addButton, "Para ingresar el telefono solo se permiten números!", "Atencion", JOptionPane.WARNING_MESSAGE);
-            phone2Text.setText("");
-            phone2Text.requestFocus();
-            ok = false;
-            oResult[0] = ok;
-            return oResult;
-        }
-
-        Object[] oReturn = new Object[2];
-        oReturn[0] = ok;
-        oReturn[1] = g;
-        return oReturn;
-
-    }
+        Object[] miObjeto = new Object[2];
+        miObjeto[0] = ok;
+        miObjeto[1] = cli;
+        return miObjeto;
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -541,15 +254,16 @@ public class Frame extends javax.swing.JFrame {
         nameText = new javax.swing.JTextField();
         surnameText = new javax.swing.JTextField();
         addressText = new javax.swing.JTextField();
-        dniText = new javax.swing.JTextField();
-        cuilText = new javax.swing.JTextField();
-        phone1Text = new javax.swing.JTextField();
-        phone2Text = new javax.swing.JTextField();
         emailText = new javax.swing.JTextField();
-        cantMascText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         birth = new com.toedter.calendar.JDateChooser();
         alta = new com.toedter.calendar.JDateChooser();
+        campoId = new javax.swing.JTextField();
+        dniText = new javax.swing.JFormattedTextField();
+        cuilText = new javax.swing.JFormattedTextField();
+        phone1Text = new javax.swing.JFormattedTextField();
+        phone2Text = new javax.swing.JTextField();
+        cantMascText = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -573,37 +287,84 @@ public class Frame extends javax.swing.JFrame {
                 nameTextActionPerformed(evt);
             }
         });
+        nameText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nameTextKeyTyped(evt);
+            }
+        });
 
         surnameText.setBorder(javax.swing.BorderFactory.createTitledBorder("Apellidos"));
         surnameText.setPreferredSize(new java.awt.Dimension(12, 40));
+        surnameText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                surnameTextActionPerformed(evt);
+            }
+        });
+        surnameText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                surnameTextKeyTyped(evt);
+            }
+        });
 
-        addressText.setBorder(javax.swing.BorderFactory.createTitledBorder("Direccion"));
+        addressText.setBorder(javax.swing.BorderFactory.createTitledBorder("Dirección"));
         addressText.setPreferredSize(new java.awt.Dimension(12, 40));
-
-        dniText.setBorder(javax.swing.BorderFactory.createTitledBorder("DNI"));
-        dniText.setPreferredSize(new java.awt.Dimension(12, 40));
-
-        cuilText.setBorder(javax.swing.BorderFactory.createTitledBorder("CUIL"));
-        cuilText.setPreferredSize(new java.awt.Dimension(12, 40));
-
-        phone1Text.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1")));
-        phone1Text.setPreferredSize(new java.awt.Dimension(12, 40));
-
-        phone2Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 2"));
-        phone2Text.setPreferredSize(new java.awt.Dimension(12, 40));
 
         emailText.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
         emailText.setPreferredSize(new java.awt.Dimension(12, 40));
-
-        cantMascText.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad de Mascotas"));
-        cantMascText.setPreferredSize(new java.awt.Dimension(12, 40));
 
         jLabel1.setFont(new java.awt.Font("FreeSans", 3, 14)); // NOI18N
         jLabel1.setText("Datos Personales");
 
         birth.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Nacimiento"));
+        birth.setPreferredSize(new java.awt.Dimension(12, 40));
 
         alta.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Alta"));
+        alta.setPreferredSize(new java.awt.Dimension(12, 40));
+
+        campoId.setEditable(false);
+        campoId.setBorder(javax.swing.BorderFactory.createTitledBorder("Key"));
+        campoId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoIdActionPerformed(evt);
+            }
+        });
+
+        dniText.setBorder(javax.swing.BorderFactory.createTitledBorder("DNI"));
+        try {
+            dniText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        dniText.setPreferredSize(new java.awt.Dimension(12, 40));
+
+        cuilText.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuil"));
+        try {
+            cuilText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        cuilText.setPreferredSize(new java.awt.Dimension(12, 40));
+
+        phone1Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 1"));
+        try {
+            phone1Text.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        phone2Text.setBorder(javax.swing.BorderFactory.createTitledBorder("Celular 2"));
+        phone2Text.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                phone2TextKeyTyped(evt);
+            }
+        });
+
+        cantMascText.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad de Mascotas"));
+        cantMascText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cantMascTextKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -611,29 +372,29 @@ public class Frame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(phone2Text, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(cantMascText, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jLabel1)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(cuilText, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                        .addComponent(birth, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addressText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nameText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(emailText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(surnameText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dniText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(alta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(phone1Text, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
+                .addGap(0, 75, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(birth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(phone2Text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cuilText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addressText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nameText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dniText, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(surnameText, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(phone1Text, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(emailText, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(alta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(46, 46, 46))
+                .addContainerGap()
+                .addComponent(campoId, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(cantMascText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -644,25 +405,27 @@ public class Frame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(surnameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(alta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cuilText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phone1Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(dniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(alta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phone1Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cuilText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phone2Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(cantMascText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cantMascText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -704,7 +467,7 @@ public class Frame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 76, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         modifyButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/modificar.png"))); // NOI18N
@@ -780,9 +543,9 @@ public class Frame extends javax.swing.JFrame {
         jLabel2.setText("Carga de Datos de Clientes");
 
         filterText.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro"));
-        filterText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterTextActionPerformed(evt);
+        filterText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filterTextKeyReleased(evt);
             }
         });
 
@@ -809,22 +572,22 @@ public class Frame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39))
+                    .addComponent(jLabel2))
                 .addGap(308, 308, 308))
         );
         layout.setVerticalGroup(
@@ -859,94 +622,156 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_nameTextActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        Object[] oReturn = isValidAdd();
-        boolean ok = (boolean) oReturn[0];
+        //Agregar
+        
+        Object[] miNuevoObjeto = _validacionFinal();
+        boolean ok = (boolean) miNuevoObjeto[0];
         if (ok) {
-            Cliente pNuevo = (Cliente) oReturn[1];
+            Cliente clienteNuevo = (Cliente) miNuevoObjeto[1];
             Clientes cnx = new Clientes();
             if (cnx.conectar()) {
-                ok = cnx.isCreate(pNuevo);
-                Clean();
+                ok = cnx.isCreate(clienteNuevo);
+                _limpiarCampos();
             }
             if (ok) {
-                modelo.addRow(pNuevo.getInfo());
-                _addCliente();
-                _showClientes(new Cliente());
+                modelo.addRow(clienteNuevo.getInfo());
+                _agregarClientesAlModelo();
+                _completarCampos(new Cliente());
             } else {
-                JOptionPane.showMessageDialog(jPanel1, "No se pudo cargar los datos!", "Error!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(jTable1, "No se pudo cargar la informacion", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(jPanel1, "Verifique los datos ingresados!", "Error!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(jTable1, "Los datos ingresados son erroneos.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        int index = jTable1.getSelectedRow();
-        if (index < 0) {
-            JOptionPane.showMessageDialog(null, "Para modificar un registro, seleccionelo.", "¡Atención!", JOptionPane.WARNING_MESSAGE);
-        } else {
-            Object[] oReturn = isValidModify();
-            boolean ok = (boolean) oReturn[0];
-            if (ok) {
-                Cliente cModificar = (Cliente) oReturn[1];
-                Clientes cnx = new Clientes();
-                    if (cnx.conectar()) {
-                        ok = cnx.isModify(cModificar);
-                        Clean();
-                        JOptionPane.showMessageDialog(null, "Registro modificado con exito!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    if (ok) {
-                        _addCliente();
-                          
-                    } else {
-                        JOptionPane.showMessageDialog(jPanel1, "No se pudo actualizar!", "Error", JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-             else {
-                JOptionPane.showMessageDialog(jPanel1, "Controle los datos!", "Error", JOptionPane.WARNING_MESSAGE);
+       //Modificar
+       Object[] miNuevoObjeto = _validacionFinal();
+        boolean ok = (boolean) miNuevoObjeto[0];
+        if (ok) {
+            Cliente clienteNuevo = (Cliente) miNuevoObjeto[1];
+            Clientes conexion = new Clientes();
+            if (conexion.conectar()) {
+                ok = conexion.isModify(clienteNuevo);
+                _limpiarCampos();
+                JOptionPane.showMessageDialog(jTable1, "Datos modificados", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
+            if (ok) {
+                _agregarClientesAlModelo();
+            } else {
+                JOptionPane.showMessageDialog(jTable1, "No se pudo cargar la informacion", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(jTable1, "Los datos ingresados son erroneos.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int index = jTable1.getSelectedRow();
-        if (index < 0) {
-            JOptionPane.showMessageDialog(null, "Para eliminar un registro, seleccionelo", "¡Atención!", JOptionPane.WARNING_MESSAGE);
-        } else {
-            Object[] oReturn = isValidAdd();
-            boolean ok = (boolean) oReturn[0];
-            if (ok) {
-                Cliente cEliminar = (Cliente) oReturn[1];
-                String msj = "¿Esta seguro de eliminar el registro por completo? ";
-                if (JOptionPane.showConfirmDialog(jPanel1, msj, "Atención", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
-                    Clientes cnx = new Clientes();
-                    if (cnx.conectar()) {
-                        ok = cnx.isDelete(cEliminar);
-                        _addCliente();
-                        JOptionPane.showMessageDialog(jPanel1, "Registro eliminado con exito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(jPanel1, "No se elimino al usuario", "Error", JOptionPane.WARNING_MESSAGE);
-                      }  
-            } else {
-                JOptionPane.showMessageDialog(jPanel1, "Controle los datos", "Error", JOptionPane.WARNING_MESSAGE);
+        //Borrar
+        Object[] miNuevoObjeto = _validacionFinal();
+        boolean ok = (boolean) miNuevoObjeto[0];
+        if (ok) {
+            Cliente clienteABorrar = (Cliente) miNuevoObjeto[1];
+            String msj = "Desea Eliminar a " + clienteABorrar.getSurname().trim() + " " + clienteABorrar.getName()+ "?";
+            if (JOptionPane.showConfirmDialog(deleteButton, msj, "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                Clientes cnx = new Clientes();
+                if (cnx.conectar()) {
+                    ok = cnx.isDelete(clienteABorrar);
+                    _agregarClientesAlModelo();
+                    _limpiarCampos();
+                    JOptionPane.showMessageDialog(deleteButton, "Cliente eliminado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(deleteButton, "No se pudo eliminar la informacion.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-         }
+        } else {
+            JOptionPane.showMessageDialog(deleteButton, "No se elimina al cliente.", "ERROR", JOptionPane.ERROR_MESSAGE);
+
         }
-        System.out.println("Hola mundo");
+     }
+            
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-         _addCliente();
+        _agregarClientesAlModelo();
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void filterTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterTextActionPerformed
-        _filter(filterText.getText().trim());
-    }//GEN-LAST:event_filterTextActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        _select();
+        _seleccionarRegistroTabla();
     }//GEN-LAST:event_jTable1MouseClicked
+    
+    private void filterTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterTextKeyReleased
+        // TODO add your handling code here:
+        _filter(filterText.getText().trim());
+    }//GEN-LAST:event_filterTextKeyReleased
+    
+    private void nameTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextKeyTyped
+        //Con este evento, no deja que el usuario ingrese números o caracteres especiales en el textfield.
+        int key = evt.getKeyChar();
+
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+        if (!(minusculas || mayusculas || espacio)) {
+            evt.consume();
+        }
+        if (nameText.getText().trim().length() == 30) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_nameTextKeyTyped
+
+    private void surnameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_surnameTextActionPerformed
+
+    private void surnameTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextKeyTyped
+        //Con este evento, no deja que el usuario ingrese números o caracteres espaciales en el textfield.
+        int key = evt.getKeyChar();
+
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+        if (!(minusculas || mayusculas || espacio)) {
+            evt.consume();
+        }
+        if (surnameText.getText().trim().length() == 35) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_surnameTextKeyTyped
+
+    private void campoIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoIdActionPerformed
+
+    private void phone2TextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phone2TextKeyTyped
+        int key = evt.getKeyChar();
+
+        boolean numeros = key >= 48 && key <= 57;
+
+        if (!numeros) {
+            evt.consume();
+        }
+
+        if (phone2Text.getText().trim().length() == 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_phone2TextKeyTyped
+
+    private void cantMascTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantMascTextKeyTyped
+        int key = evt.getKeyChar();
+
+        boolean numeros = key >= 48 && key <= 57;
+
+        if (!numeros) {
+            evt.consume();
+        }
+
+        if (cantMascText.getText().trim().length() == 2) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cantMascTextKeyTyped
 
     /**
      * @param args the command line arguments
@@ -988,10 +813,11 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JTextField addressText;
     private com.toedter.calendar.JDateChooser alta;
     private com.toedter.calendar.JDateChooser birth;
+    private javax.swing.JTextField campoId;
     private javax.swing.JTextField cantMascText;
-    private javax.swing.JTextField cuilText;
+    private javax.swing.JFormattedTextField cuilText;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JTextField dniText;
+    private javax.swing.JFormattedTextField dniText;
     private javax.swing.JTextField emailText;
     private javax.swing.JTextField filterText;
     private javax.swing.JButton jButton1;
@@ -1005,7 +831,7 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton modifyButton;
     private javax.swing.JTextField nameText;
-    private javax.swing.JTextField phone1Text;
+    private javax.swing.JFormattedTextField phone1Text;
     private javax.swing.JTextField phone2Text;
     private javax.swing.JTextField surnameText;
     private javax.swing.JButton updateButton;

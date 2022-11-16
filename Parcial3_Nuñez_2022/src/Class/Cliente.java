@@ -6,6 +6,7 @@ package Class;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -123,11 +124,6 @@ public class Cliente {
 
     
      public Object[] getInfo() {
-
-//        String patron1 = "dd/MM/yyyy";
-//        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(patron1);
-//        String FechaNac = simpleDateFormat1.format(getDate_nac());
-
         Object[] oDato = {getId(),
             getSurname(),
             getName(),
@@ -137,8 +133,28 @@ public class Cliente {
 
     public boolean isValidar(){
         boolean ok = false;
-        ok = true;
         
+        String patronLyN = "^[a-zA-Z0-9 ]*$";
+        String patronNum = "^[0-9]*$";
+        String patronCE = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        
+        if (!(this.getAddress().matches(patronLyN))) {
+            JOptionPane.showMessageDialog(null, "Solo se aceptan letras y numeros para el domicilio", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!(this.getCuil().matches(patronNum)) || !(this.getPhone1().matches(patronNum)) ||  !(this.getPhone2().matches(patronNum))){
+            JOptionPane.showMessageDialog(null, "Solo se aceptan numeros para el cuil y el numero de telefono", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (String.valueOf(this.getDni()).length() < 8 || String.valueOf(this.getDni()).length() > 8) {
+            JOptionPane.showMessageDialog(null, "Longitud de DNI incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if ((this.getCuil().length() < 11) || (this.getCuil().length() > 11)) {
+            JOptionPane.showMessageDialog(null, "Longitud de CUIL incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!(this.getEmail().matches(patronCE))) {
+            JOptionPane.showMessageDialog(null, "Email incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+        
+        } else if (this.getCant_masc() < 1) {
+            JOptionPane.showMessageDialog(null, "Cantidad incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ok = true;
+        }
         
         return ok;
     }

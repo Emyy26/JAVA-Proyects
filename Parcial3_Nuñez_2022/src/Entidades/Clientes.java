@@ -19,7 +19,7 @@ public class Clientes extends Conexion{
 
     @Override
     public ArrayList getList(String query) {
-        ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
+        ArrayList<Cliente> clienteList = new ArrayList<>();
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -122,7 +122,8 @@ public class Clientes extends Conexion{
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-
+            
+            System.out.println("queriendo borrar id..."+p.getId());
             String query = "SELECT * FROM Clientes WHERE id=" + p.getId();
 
             ResultSet rs = st.executeQuery(query);
@@ -133,10 +134,10 @@ public class Clientes extends Conexion{
             } else {
                 ok = false;
             }
-
+            
             rs.close();
             st.close();
-
+            System.out.println("pude borrar id?"+p.getId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
 
@@ -154,10 +155,13 @@ public class Clientes extends Conexion{
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-
+            
+            
+            System.out.println("Buscando id..."+ p.getId());
             String query = "SELECT * FROM Clientes WHERE id=" + p.getId();
 
             ResultSet rs = st.executeQuery(query);
+            System.out.println("Encontre id! "+p.getId());
 
             if (rs.next()) {
                 rs.updateString("apellido", p.getSurname());
