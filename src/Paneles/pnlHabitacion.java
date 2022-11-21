@@ -51,17 +51,6 @@ public class pnlHabitacion extends javax.swing.JPanel {
         _cargarHabitacion();
     }
 
-    //Funcion con una expresion para saber si solo contiene letras.
-    public static boolean isAlpha(String a) {
-        return a != null && a.matches("^[a-zA-Z\\s]*$");
-    }
-
-    //Funcion para validar que sea un correo electronico.
-    public static boolean esCorreo(String a) {
-        return a != null && a.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-    }
-
     //Configuracion de la tabla, de los datos mas importantes a mostrar
     public void _tabla() {
         modelo = new DefaultTableModel();
