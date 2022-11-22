@@ -5,6 +5,7 @@
 package Datos;
 
 import Entidades.Huesped;
+import Entidades.Personal;
 import Miselaneos.ConexionMySQL;
 import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
@@ -15,34 +16,34 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author nejo
+ * @author nejito
  */
-public class Huespedes extends ConexionMySQL {
-   @Override
+public class Personales extends ConexionMySQL {
+
+    @Override
     public ArrayList getList(String query) {
-        ArrayList<Huesped> huespedesList = new ArrayList<Huesped>();
+        ArrayList<Personal> personalesList = new ArrayList<Personal>();
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                Huesped h = new Huesped();
+                Personal p = new Personal();
 
-                h.setId(rs.getInt("id"));
-                h.setApellido(rs.getString("apellido"));
-                h.setNombres(rs.getString("nombres"));
-                h.setProvincia(rs.getString("provincia"));
-                h.setCiudad(rs.getString("ciudad"));
-                h.setCelular(rs.getString("celular"));
-                h.setEmail(rs.getString("email"));
-                h.setNro_dni(rs.getString("nro_dni"));
-                h.setCuil(rs.getString("cuil"));
-                h.setFecha_nacimiento(rs.getDate("fecha_nacimiento"));
-                h.setFecha_alta(rs.getDate("fecha_alta"));
-                h.setObservaciones(rs.getString("observaciones"));
+                p.setId(rs.getInt("id"));
+                p.setApellido(rs.getString("apellido"));
+                p.setNombres(rs.getString("nombres"));
+                p.setNro_dni(rs.getString("nro_dni"));
+                p.setCuil(rs.getString("cuil"));
+                p.setCelular(rs.getString("celular"));
+                p.setEmail(rs.getString("email"));
+                p.setFecha_alta(rs.getDate("fecha_alta"));
+                p.setTipoPersonal(rs.getString("tipo_personal"));
+                p.setSexo(rs.getString("sexo"));
+                p.setObservaciones(rs.getString("observaciones"));
 
-                huespedesList.add(h);
+                personalesList.add(p);
             }
 
             rs.close();
@@ -53,7 +54,7 @@ public class Huespedes extends ConexionMySQL {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         } finally {
-            return huespedesList;
+            return personalesList;
         }
 
     }
@@ -61,43 +62,34 @@ public class Huespedes extends ConexionMySQL {
     @Override
     public boolean isIngresar(Object obj) {
         boolean ok = false;
-        Huesped h = (Huesped) obj;
+        Personal p = (Personal) obj;
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            String query = "SELECT * FROM huespedes WHERE id=0";
+            String query = "SELECT * FROM personal WHERE id=0";
 
             ResultSet rs = st.executeQuery(query);
 
             rs.moveToInsertRow();
 
-            rs.updateString("apellido", h.getApellido());
-            rs.updateString("nombres", h.getNombres());
-            rs.updateString("provincia", h.getProvincia());
-            rs.updateString("ciudad", h.getCiudad());
-            rs.updateString("celular", h.getCelular());
-            rs.updateString("email", h.getEmail());
-            rs.updateString("nro_dni", h.getNro_dni());
-            rs.updateString("cuil", h.getCuil());
-            if (h.getFecha_nacimiento() != null) {
-                String patron1 = "yyyy-MM-dd";
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(patron1);
-                String mFechaNac = simpleDateFormat1.format(h.getFecha_nacimiento());
-                rs.updateString("fecha_nacimiento", mFechaNac);
-            } else {
-                rs.updateDate("fecha_nacimiento", null);
-            }
-
-            if (h.getFecha_alta() != null) {
+            rs.updateString("apellido", p.getApellido());
+            rs.updateString("nombres", p.getNombres());
+            rs.updateString("nro_dni", p.getNro_dni());
+            rs.updateString("cuil", p.getCuil());
+            rs.updateString("celular", p.getCelular());
+            rs.updateString("email", p.getEmail());
+            if (p.getFecha_alta() != null) {
                 String patron2 = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(patron2);
-                String mFechaNac = simpleDateFormat2.format(h.getFecha_alta());
+                String mFechaNac = simpleDateFormat2.format(p.getFecha_alta());
                 rs.updateString("fecha_alta", mFechaNac);
             } else {
                 rs.updateDate("fecha_alta", null);
             }
-            rs.updateString("observaciones", h.getObservaciones());
+            rs.updateString("sexo", p.getSexo());
+            rs.updateString("tipo_personal", p.getTipoPersonal());
+            rs.updateString("observaciones", p.getObservaciones());
 
             rs.insertRow();
             rs.close();
@@ -120,12 +112,12 @@ public class Huespedes extends ConexionMySQL {
     @Override
     public boolean isEliminar(Object obj) {
         boolean ok = false;
-        Huesped h = (Huesped) obj;
+        Personal p = (Personal) obj;
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            String query = "SELECT * FROM huespedes WHERE id=" + h.getId();
+            String query = "SELECT * FROM personal WHERE id=" + p.getId();
 
             ResultSet rs = st.executeQuery(query);
 
@@ -151,42 +143,33 @@ public class Huespedes extends ConexionMySQL {
     @Override
     public boolean isModificar(Object obj) {
         boolean ok = false;
-        Huesped h = (Huesped) obj;
+        Personal p = (Personal) obj;
         try {
             Statement st = (Statement) getCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            String query = "SELECT * FROM huespedes WHERE id=" + h.getId();
+            String query = "SELECT * FROM personal WHERE id=" + p.getId();
 
             ResultSet rs = st.executeQuery(query);
 
             if (rs.next()) {
-                rs.updateString("apellido", h.getApellido());
-                rs.updateString("nombres", h.getNombres());
-                rs.updateString("provincia", h.getProvincia());
-                rs.updateString("ciudad", h.getCiudad());
-                rs.updateString("celular", h.getCelular());
-                rs.updateString("email", h.getEmail());
-                rs.updateString("nro_dni", h.getNro_dni());
-                rs.updateString("cuil", h.getCuil());
-                if (h.getFecha_nacimiento() != null) {
-                    String patron1 = "yyyy-MM-dd";
-                    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(patron1);
-                    String mFechaNac = simpleDateFormat1.format(h.getFecha_nacimiento());
-                    rs.updateString("fecha_nacimiento", mFechaNac);
-                } else {
-                    rs.updateDate("fecha_nacimiento", null);
-                }
-
-                if (h.getFecha_alta() != null) {
+                rs.updateString("apellido", p.getApellido());
+                rs.updateString("nombres", p.getNombres());
+                rs.updateString("nro_dni", p.getNro_dni());
+                rs.updateString("cuil", p.getCuil());
+                rs.updateString("celular", p.getCelular());
+                rs.updateString("email", p.getEmail());
+                if (p.getFecha_alta() != null) {
                     String patron2 = "yyyy-MM-dd";
                     SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(patron2);
-                    String mFechaNac = simpleDateFormat2.format(h.getFecha_alta());
+                    String mFechaNac = simpleDateFormat2.format(p.getFecha_alta());
                     rs.updateString("fecha_alta", mFechaNac);
                 } else {
                     rs.updateDate("fecha_alta", null);
                 }
-                rs.updateString("observaciones", h.getObservaciones());
+                rs.updateString("sexo", p.getSexo());
+                rs.updateString("tipo_personal", p.getTipoPersonal());
+                rs.updateString("observaciones", p.getObservaciones());
                 rs.updateRow();
                 ok = true;
             }
@@ -224,4 +207,5 @@ public class Huespedes extends ConexionMySQL {
             return ok;
         }
     }
+
 }

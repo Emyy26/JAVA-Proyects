@@ -23,6 +23,15 @@ public abstract class Persona {
     private String nro_dni;
     private String cuil;
     private Date fecha_nacimiento;
+    private String sexo;
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
 
     public Persona() {
         setId(0);
@@ -35,6 +44,7 @@ public abstract class Persona {
         setNro_dni("");
         setCuil("");
         setFecha_nacimiento(Calendar.getInstance().getTime());
+        setSexo("");
     }
 
     public Integer getId() {

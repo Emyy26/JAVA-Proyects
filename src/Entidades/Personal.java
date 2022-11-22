@@ -9,24 +9,23 @@ import java.util.Date;
 
 /**
  *
- * @author nejo
+ * @author nejito
  */
-public class Huesped extends Persona {
-
+public class Personal extends Persona {
     private String observaciones;
     private Date fecha_alta;
-
-    public Huesped(){
+    private String tipoPersonal;
+    
+    public Personal(){
         setId(0);
         setApellido("");
         setNombres("");
-        setProvincia("");
-        setCiudad("");
         setCelular("");
         setEmail("");
         setNro_dni("");
         setCuil("");
-        setFecha_nacimiento(null);
+        setTipoPersonal("");
+        setSexo("");
         setFecha_alta(null);
         setObservaciones("");
         
@@ -47,9 +46,17 @@ public class Huesped extends Persona {
     public void setFecha_alta(Date fecha_alta) {
         this.fecha_alta = fecha_alta;
     }
+
+    public String getTipoPersonal() {
+        return tipoPersonal;
+    }
+
+    public void setTipoPersonal(String tipoPersonal) {
+        this.tipoPersonal = tipoPersonal;
+    }
     
     
-    
+
     @Override
     public boolean isValidar() {
         boolean isOk = false;
@@ -77,7 +84,11 @@ public class Huesped extends Persona {
             getNro_dni(),
             getCelular(),
             getEmail(),
-            getCuil()};
+            getCuil(),
+            getSexo(),
+            getTipoPersonal(),
+            getFecha_alta()};
         return oDato;
     }
+    
 }

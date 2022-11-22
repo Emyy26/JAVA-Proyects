@@ -59,6 +59,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="filtrarKeyReleased"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                   <BorderConstraints direction="Center"/>
@@ -97,7 +100,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JList" name="tabla">
+                    <Component class="javax.swing.JList" name="listaHuespedes">
                       <Properties>
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                           <StringArray count="5">
@@ -109,6 +112,10 @@
                           </StringArray>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="listaHuespedesMouseClicked"/>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="listaHuespedesKeyReleased"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -169,6 +176,9 @@
                   <Dimension value="[80, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAgregarMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.Box$Filler" name="filler1">
               <Properties>
@@ -196,6 +206,9 @@
                   <Dimension value="[80, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditarMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.Box$Filler" name="filler2">
               <Properties>
@@ -223,6 +236,9 @@
                   <Dimension value="[80, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnBorrarMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -246,7 +262,7 @@
                   <Color blue="0" green="66" red="cc" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="36" style="1"/>
+                  <Font name="Bitstream Charter" size="36" style="3"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -348,15 +364,12 @@
                                   <Component id="fechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="fechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="90" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="89" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="cuilText" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="cuilText" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="67" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -388,6 +401,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="apellidoTxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nombresTxt">
               <Properties>
@@ -401,6 +417,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nombresTxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="dniTxt">
               <Properties>
@@ -414,6 +433,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dniTxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="celularTxt">
               <Properties>
@@ -427,6 +449,10 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celularTxtActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="celularTxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="emailTxt">
               <Properties>
@@ -444,11 +470,31 @@
             <Component class="javax.swing.JComboBox" name="provinciaTxt">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Chaco"/>
-                    <StringItem index="1" value="Formosa"/>
-                    <StringItem index="2" value="Corrientes"/>
-                    <StringItem index="3" value="Nejo"/>
+                  <StringArray count="24">
+                    <StringItem index="0" value="Buenos Aires"/>
+                    <StringItem index="1" value="Ciudad Aut&#xf3;noma de Buenos Aires"/>
+                    <StringItem index="2" value="Catamarca"/>
+                    <StringItem index="3" value="Chaco"/>
+                    <StringItem index="4" value="Chubut"/>
+                    <StringItem index="5" value="C&#xf3;rdoba"/>
+                    <StringItem index="6" value="Corrientes"/>
+                    <StringItem index="7" value="Entre R&#xed;os"/>
+                    <StringItem index="8" value="Formosa"/>
+                    <StringItem index="9" value="Jujuy"/>
+                    <StringItem index="10" value="La Pampa"/>
+                    <StringItem index="11" value="La Rioja"/>
+                    <StringItem index="12" value="Mendoza"/>
+                    <StringItem index="13" value="Misiones"/>
+                    <StringItem index="14" value="Neuqu&#xe9;n"/>
+                    <StringItem index="15" value="R&#xed;o Negro"/>
+                    <StringItem index="16" value="Salta"/>
+                    <StringItem index="17" value="San Juan"/>
+                    <StringItem index="18" value="San Luis"/>
+                    <StringItem index="19" value="Santa Cruz"/>
+                    <StringItem index="20" value="Santa Fe"/>
+                    <StringItem index="21" value="Santiago del Estero"/>
+                    <StringItem index="22" value="Tierra del Fuego"/>
+                    <StringItem index="23" value="Tucum&#xe1;n"/>
                   </StringArray>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -477,6 +523,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ciudadTxtKeyTyped"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>

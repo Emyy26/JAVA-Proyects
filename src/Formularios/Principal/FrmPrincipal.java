@@ -45,7 +45,6 @@ public class FrmPrincipal extends jFrameProyecto {
         pnlTitulo = new Miselaneos.pnlSys();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        playButton = new javax.swing.JButton();
         pnlAbajo = new javax.swing.JPanel();
         pnlBotones = new javax.swing.JPanel();
         btnHome = new javax.swing.JButton();
@@ -89,19 +88,6 @@ public class FrmPrincipal extends jFrameProyecto {
             }
         });
         pnlTitulo.add(jButton1, java.awt.BorderLayout.LINE_END);
-
-        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/audio1.png"))); // NOI18N
-        playButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                playButtonMouseClicked(evt);
-            }
-        });
-        playButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playButtonActionPerformed(evt);
-            }
-        });
-        pnlTitulo.add(playButton, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(pnlTitulo, java.awt.BorderLayout.PAGE_START);
 
@@ -241,16 +227,6 @@ public class FrmPrincipal extends jFrameProyecto {
         //JOptionPane.showMessageDialog(pnlPrincipal, "¡PROXIMAMENTE!", "¡Atención!", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_btnCajaMouseClicked
 
-    private void playButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playButtonMouseClicked
-       
-
-        
-    }//GEN-LAST:event_playButtonMouseClicked
-
-    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        
-    }//GEN-LAST:event_playButtonActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -298,7 +274,6 @@ public class FrmPrincipal extends jFrameProyecto {
     private javax.swing.JButton btnReservas;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JButton playButton;
     private javax.swing.JPanel pnlAbajo;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlPrincipal;

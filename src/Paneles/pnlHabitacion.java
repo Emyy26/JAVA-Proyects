@@ -427,7 +427,7 @@ public class pnlHabitacion extends javax.swing.JPanel {
         pnlTitulo.setLayout(new java.awt.BorderLayout());
 
         titulo.setBackground(new java.awt.Color(204, 102, 0));
-        titulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        titulo.setFont(new java.awt.Font("Bitstream Charter", 3, 36)); // NOI18N
         titulo.setForeground(new java.awt.Color(255, 255, 255));
         titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titulo.setText("Datos de Habitación");
@@ -554,7 +554,7 @@ public class pnlHabitacion extends javax.swing.JPanel {
                     .addComponent(aireCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(aireAcondicionado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
