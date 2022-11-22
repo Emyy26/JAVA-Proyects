@@ -13,12 +13,9 @@ import javax.swing.JLabel;
  * @author nejo
  */
 public class Reloj extends JLabel implements Runnable {
-    private Imagenes img;
+    
     public Reloj(){
-        img = new Imagenes();
         setText("");
-        setIcon(img.getReloj(16, 16));
-        
         Thread t = new Thread(this);
         t.start();
     }

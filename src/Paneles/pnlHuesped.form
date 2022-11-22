@@ -306,7 +306,7 @@
                                       <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="nombresTxt" pref="290" max="32767" attributes="0"/>
-                                          <Component id="cuilTxt" max="32767" attributes="0"/>
+                                          <Component id="cuilText" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -349,11 +349,14 @@
                                   <Component id="fechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="87" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="90" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cuilTxt" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="cuilText" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -525,16 +528,15 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="Miselaneos.TxtCuit" name="cuilTxt">
+            <Component class="javax.swing.JFormattedTextField" name="cuilText">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Cuil">
-                      <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                        <BevelBorder/>
-                      </Border>
-                    </TitledBorder>
+                    <TitledBorder title="Cuil"/>
                   </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="##-########-#" subtype="-1" type="5"/>
                 </Property>
               </Properties>
             </Component>

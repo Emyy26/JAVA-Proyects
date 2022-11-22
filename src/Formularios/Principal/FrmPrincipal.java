@@ -10,6 +10,8 @@ import Paneles.CambiaPanel;
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import java.io.File;
+
 
 /**
  *
@@ -43,6 +45,7 @@ public class FrmPrincipal extends jFrameProyecto {
         pnlTitulo = new Miselaneos.pnlSys();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        playButton = new javax.swing.JButton();
         pnlAbajo = new javax.swing.JPanel();
         pnlBotones = new javax.swing.JPanel();
         btnHome = new javax.swing.JButton();
@@ -58,7 +61,7 @@ public class FrmPrincipal extends jFrameProyecto {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PROYECTO HOTEL \"POCHITA\"");
         setBackground(new java.awt.Color(255, 0, 0));
-        setMinimumSize(new java.awt.Dimension(1024, 800));
+        setMinimumSize(new java.awt.Dimension(1024, 600));
         getContentPane().setLayout(new java.awt.BorderLayout());
 
         pnlTitulo.setBackground(new java.awt.Color(255, 102, 0));
@@ -69,7 +72,7 @@ public class FrmPrincipal extends jFrameProyecto {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("                HOTEL \"POCHITA\" v1.0 ");
-        jLabel3.setPreferredSize(new java.awt.Dimension(138, 40));
+        jLabel3.setPreferredSize(new java.awt.Dimension(100, 40));
         jLabel3.setRequestFocusEnabled(false);
         pnlTitulo.add(jLabel3, java.awt.BorderLayout.CENTER);
 
@@ -86,6 +89,19 @@ public class FrmPrincipal extends jFrameProyecto {
             }
         });
         pnlTitulo.add(jButton1, java.awt.BorderLayout.LINE_END);
+
+        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/audio1.png"))); // NOI18N
+        playButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playButtonMouseClicked(evt);
+            }
+        });
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
+        pnlTitulo.add(playButton, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(pnlTitulo, java.awt.BorderLayout.PAGE_START);
 
@@ -170,6 +186,7 @@ public class FrmPrincipal extends jFrameProyecto {
         pnlTitulo1.setPreferredSize(new java.awt.Dimension(180, 25));
         pnlTitulo1.setLayout(new java.awt.BorderLayout());
 
+        reloj1.setForeground(new java.awt.Color(255, 255, 255));
         reloj1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         reloj1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnlTitulo1.add(reloj1, java.awt.BorderLayout.CENTER);
@@ -224,6 +241,16 @@ public class FrmPrincipal extends jFrameProyecto {
         //JOptionPane.showMessageDialog(pnlPrincipal, "¡PROXIMAMENTE!", "¡Atención!", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_btnCajaMouseClicked
 
+    private void playButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playButtonMouseClicked
+       
+
+        
+    }//GEN-LAST:event_playButtonMouseClicked
+
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+        
+    }//GEN-LAST:event_playButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -271,6 +298,7 @@ public class FrmPrincipal extends jFrameProyecto {
     private javax.swing.JButton btnReservas;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton playButton;
     private javax.swing.JPanel pnlAbajo;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlPrincipal;

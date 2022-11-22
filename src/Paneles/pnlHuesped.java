@@ -71,7 +71,7 @@ public class pnlHuesped extends javax.swing.JPanel {
         observacionesTxt = new javax.swing.JTextArea();
         fechaNacimiento = new com.toedter.calendar.JDateChooser();
         fechaAlta = new com.toedter.calendar.JDateChooser();
-        cuilTxt = new Miselaneos.TxtCuit();
+        cuilText = new javax.swing.JFormattedTextField();
 
         setPreferredSize(new java.awt.Dimension(1024, 431));
         setLayout(new java.awt.BorderLayout());
@@ -175,7 +175,12 @@ public class pnlHuesped extends javax.swing.JPanel {
 
         fechaAlta.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Fecha de Alta"));
 
-        cuilTxt.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Cuil"));
+        cuilText.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuil"));
+        try {
+            cuilText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##-########-#")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout pnlCamposLayout = new javax.swing.GroupLayout(pnlCampos);
         pnlCampos.setLayout(pnlCamposLayout);
@@ -206,7 +211,7 @@ public class pnlHuesped extends javax.swing.JPanel {
                                 .addGap(94, 94, 94)
                                 .addGroup(pnlCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(nombresTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                                    .addComponent(cuilTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(cuilText)))))
                     .addGroup(pnlCamposLayout.createSequentialGroup()
                         .addGap(385, 385, 385)
                         .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -237,9 +242,11 @@ public class pnlHuesped extends javax.swing.JPanel {
                             .addComponent(fechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
-                    .addComponent(cuilTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                        .addGap(67, 67, 67))
+                    .addGroup(pnlCamposLayout.createSequentialGroup()
+                        .addComponent(cuilText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pnlDatos.add(pnlCampos, java.awt.BorderLayout.CENTER);
@@ -255,7 +262,7 @@ public class pnlHuesped extends javax.swing.JPanel {
     private Miselaneos.Btn btnEditar;
     private javax.swing.JTextField celularTxt;
     private javax.swing.JTextField ciudadTxt;
-    private Miselaneos.TxtCuit cuilTxt;
+    private javax.swing.JFormattedTextField cuilText;
     private javax.swing.JTextField dniTxt;
     private javax.swing.JTextField emailTxt;
     private com.toedter.calendar.JDateChooser fechaAlta;
